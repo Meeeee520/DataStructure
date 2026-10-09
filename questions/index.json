@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "days": [
+    {
+      "date": "2026-10-09",
+      "topic": "数据结构与数组入门",
+      "path": "questions/2026-10/2026-10-09_数据结构与数组入门.json",
+      "count": 5
+    }
+  ]
+}
