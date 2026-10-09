@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-10",
+  "topic": "数组遍历与成绩统计",
+  "stage": "数组与顺序表",
+  "language": "Java",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-10_数组遍历与成绩统计.md",
+  "collectedAt": "2026-10-10",
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "kind": "概念来源"
+    },
+    {
+      "title": "Dev.java：Control Flow Statements",
+      "url": "https://dev.java/learn/language-basics/controlling-flow/",
+      "kind": "概念与示例来源"
+    },
+    {
+      "title": "Princeton IntroCS：Arrays",
+      "url": "https://introcs.cs.princeton.edu/14array",
+      "kind": "课程与练习来源"
+    },
+    {
+      "title": "Princeton IntroCS：Input and Output Exercises",
+      "url": "https://introcs.cs.princeton.edu/java/15inout/",
+      "kind": "改编练习来源"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "title": "安全遍历所有下标",
+      "difficulty": "入门",
+      "prompt": "数组变量名为 scores。哪一个循环头会从下标 0 开始，安全遍历所有元素？",
+      "options": [
+        "for (int i = 0; i <= scores.length; i++)",
+        "for (int i = 1; i < scores.length; i++)",
+        "for (int i = 0; i < scores.length; i++)",
+        "for (int i = 0; i < scores.length - 1; i++)"
+      ],
+      "answer": 2,
+      "explanation": "有效下标从 0 到 length - 1，因此初始化为 0、条件为 i < scores.length。<= 会多走一次；从 1 开始会漏掉首项；length - 1 会漏掉末项。",
+      "hint": "把长度为 3 的有效下标 0、1、2 代入检查。",
+      "sourceIndex": 0,
+      "attribution": "依据 Dev.java 数组边界概念编写"
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "title": "for-each 会改数组吗",
+      "difficulty": "基础",
+      "prompt": "下面代码最后输出什么？",
+      "code": "int[] a = {2, 4};\nfor (int x : a) {\n    x = 9;\n}\nSystem.out.println(a[0] + \" \" + a[1]);",
+      "options": [
+        "9 9",
+        "2 4",
+        "9 4",
+        "编译错误"
+      ],
+      "answer": 1,
+      "explanation": "每轮把当前 int 元素的值复制给局部变量 x。给 x 重新赋值不会写回数组，因此 a 仍为 {2, 4}。",
+      "hint": "这里 x 是一个 int 局部变量，不是数组下标。",
+      "sourceIndex": 1,
+      "attribution": "依据增强 for 语义编写"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "空数组与最小值",
+      "difficulty": "基础",
+      "prompt": "若 int[] scores 可能为空，下面哪种做法最安全、也最适合求真实最小值？",
+      "options": [
+        "直接写 int min = scores[0]",
+        "先令 int min = 0，不用检查空数组",
+        "先检查 scores.length == 0；非空时再令 min = scores[0] 并遍历",
+        "令 min = scores.length"
+      ],
+      "answer": 2,
+      "explanation": "空数组没有 scores[0]，必须先检查长度。非空时用真实首项初始化，才能正确处理所有元素都为正或都为负的情况。",
+      "hint": "同时考虑空数组和 {-8, -3, -10}。",
+      "sourceIndex": 2,
+      "attribution": "依据 Princeton 数组统计示例编写"
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "追踪总和与最大值",
+      "difficulty": "基础",
+      "prompt": "写出两行输出，每行一个整数。",
+      "code": "int[] a = {5, 2, 9};\nint sum = 0;\nint max = a[0];\nfor (int value : a) {\n    sum += value;\n    if (value > max) {\n        max = value;\n    }\n}\nSystem.out.println(sum);\nSystem.out.println(max);",
+      "answer": "16\n9",
+      "explanation": "遍历依次把 5、2、9 加入 sum，得到 16；max 从首项 5 开始，最终被 9 更新。",
+      "hint": "为每轮分别记录 sum 和 max。",
+      "sourceIndex": 2,
+      "attribution": "依据 Princeton 典型数组处理代码编写"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "成绩数组统计器",
+      "difficulty": "应用",
+      "prompt": "第一项输入是非负整数 n，随后输入 n 个整数成绩，空格或换行分隔均可。把成绩存入数组；n 为 0 时只输出 No data，否则输出总和、保留两位小数的平均分、最小值和最大值，格式严格参照测试。保存为 Main.java，在本地运行。",
+      "starter": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] scores = new int[n];\n        // 读入数组、处理空数组并统计\n        sc.close();\n    }\n}\n",
+      "answer": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] scores = new int[n];\n\n        for (int i = 0; i < scores.length; i++) {\n            scores[i] = sc.nextInt();\n        }\n\n        if (scores.length == 0) {\n            System.out.println(\"No data\");\n        } else {\n            long sum = 0;\n            int min = scores[0];\n            int max = scores[0];\n\n            for (int score : scores) {\n                sum += score;\n                if (score < min) {\n                    min = score;\n                }\n                if (score > max) {\n                    max = score;\n                }\n            }\n\n            double average = (double) sum / scores.length;\n            System.out.println(\"Sum: \" + sum);\n            System.out.printf(java.util.Locale.ROOT, \"Average: %.2f%n\", average);\n            System.out.println(\"Min: \" + min);\n            System.out.println(\"Max: \" + max);\n        }\n\n        sc.close();\n    }\n}",
+      "explanation": "先用普通 for 按下标填充数组，再处理空数组。非空时从 scores[0] 初始化 min/max，并在一次增强 for 中更新 sum、min、max。强制转换为 double 避免整数除法。题目参考 Princeton 的 MaxMin、Stats 与数组统计练习，缩小范围并改用标准 Scanner，非原题照录。网站不执行 Java。",
+      "tests": [
+        {
+          "input": "3\n80 90 100",
+          "output": "Sum: 270\nAverage: 90.00\nMin: 80\nMax: 100"
+        },
+        {
+          "input": "1\n73",
+          "output": "Sum: 73\nAverage: 73.00\nMin: 73\nMax: 73"
+        },
+        {
+          "input": "0",
+          "output": "No data"
+        }
+      ],
+      "hint": "先读完数组；若长度为 0 就直接输出，否则用首项初始化 min/max。",
+      "sourceIndex": 3,
+      "attribution": "参考 Princeton MaxMin、Stats 与数组练习改编，非原题照录"
+    }
+  ]
+}
