@@ -16,6 +16,7 @@
 | 日期 | 当日笔记 | 练习 |
 | --- | --- | --- |
 | 2026-10-09 | [数据结构与数组入门](notes/2026-10/2026-10-09_数据结构与数组入门.md) | [打开练习网页](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) |
+| 2026-10-10 | [数组遍历与成绩统计](notes/2026-10/2026-10-10_数组遍历与成绩统计.md) | [打开练习网页](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-10_数组遍历与成绩统计.json) |
 <!-- DAILY_NOTES_END -->
 
 **具体查看方式**：点击上面的笔记标题即可阅读，或进入 `notes → 2026-10 → 日期_知识点名.md`。`.md` 会由 GitHub 排版；`questions` 里的 `.json` 是网站的数据，不是阅读笔记。
