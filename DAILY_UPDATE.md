@@ -31,3 +31,8 @@
 - notePath 与索引 path 指向同一日实际存在的文件；来源索引在 sources 数组范围内。
 
 写现有文件先 fetch_file 获取当前 blob SHA 后 update_file；明确缺失才 create_file。连接失效时报告需要重新连接。用户未反馈完成情况时，不替其勾选清单。
+
+
+## 🛠️ 项目学习增补（2026-10-10）
+
+每日笔记与原网站五道题继续生成。项目学习的新规则见 [PROJECT_PLAN.md](PROJECT_PLAN.md) 和 [PROJECT_UPDATE.md](PROJECT_UPDATE.md)，同时读取 `projects/index.json`。工作日一个 Python 小项目，Java 为同一场景的可选加练；周六、周日合做同一个综合项目，周日不得新建不同 ID。先写并读回两个仓库的 JSON/Markdown 详情，再更新项目索引 readiness；个人草稿和进度只保存在私人网站，不写公开仓库。两个学习线共用原有时间预算。

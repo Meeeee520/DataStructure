@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "projectId": "weekend-2026-10-10",
+  "track": "java",
+  "title": "同一份成绩报告 · Java 数组加练",
+  "goal": "用一维数组存成绩并遍历统计。周日建立独立数组副本，观察引用赋值与复制的区别。输入输出格式与 Python 主项目相同。",
+  "prerequisites": [
+    "Scanner、条件判断与循环",
+    "数组创建、索引与 length",
+    "周日笔记：数组引用与复制"
+  ],
+  "filename": "GradeProject.java",
+  "runCommand": "javac GradeProject.java && java GradeProject",
+  "starter": "import java.util.Scanner;\n\npublic class GradeProject {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 0) {\n            System.out.println(\"暂无成绩\");\n            return;\n        }\n        double[] scores = new double[n];\n        // TODO：录入合法成绩，再遍历 scores 完成统计。\n        // TODO：用 printf 保留两位小数，并输出及格人数。\n        // 周日：用 Arrays.copyOf 建立独立副本。\n    }\n}\n",
+  "steps": [
+    {
+      "id": "sat-array",
+      "day": "2026-10-10",
+      "title": "创建数组并把成绩放进去",
+      "instruction": "人数有效后创建 double[] scores = new double[n]。用 i < scores.length 控制下标，并把每个合法成绩放入 scores[i]。",
+      "hint": "数组下标从 0 开始；length 是字段，不带括号。",
+      "knowledge": [
+        "数组",
+        "length",
+        "索引"
+      ]
+    },
+    {
+      "id": "sat-java-stats",
+      "day": "2026-10-10",
+      "title": "用遍历写同一份报告",
+      "instruction": "在访问 scores[0] 前处理空数组。遍历累加并比较最值，注意 total / n 应得到浮点数。运行与 Python 相同的输入样例。",
+      "hint": "本例 total 是 double。若两个操作数都是 int，就会做整数除法。",
+      "knowledge": [
+        "遍历",
+        "浮点除法",
+        "最值"
+      ]
+    },
+    {
+      "id": "sun-copy",
+      "day": "2026-10-11",
+      "title": "亲自验证数组复制",
+      "instruction": "先试 double[] alias = scores；再试 Arrays.copyOf(scores, scores.length)。修改 scores[0] 后分别观察副本，最后去掉临时输出并运行自测。",
+      "hint": "引用赋值只增加别名；copyOf 为一维数值数组创建独立空间。",
+      "knowledge": [
+        "引用",
+        "Arrays.copyOf",
+        "别名"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "normal",
+      "label": "三人成绩",
+      "input": "3\n60\n80\n100\n",
+      "output": "平均分：80.00\n最高分：100.00\n最低分：60.00\n及格人数：3/3",
+      "purpose": "检查累加、平均数、最高最低分与 60 分边界。"
+    },
+    {
+      "id": "empty",
+      "label": "暂无成绩",
+      "input": "0\n",
+      "output": "暂无成绩",
+      "purpose": "先检查人数，再访问第一个元素或做除法。"
+    },
+    {
+      "id": "single",
+      "label": "恰好及格的一人",
+      "input": "1\n60\n",
+      "output": "平均分：60.00\n最高分：60.00\n最低分：60.00\n及格人数：1/1",
+      "purpose": "只有一个元素时，最值和平均分仍然正确。"
+    },
+    {
+      "id": "retry",
+      "label": "越界后重新输入",
+      "input": "1\n-1\n101\n70\n",
+      "output": "Invalid input\nInvalid input\n平均分：70.00\n最高分：70.00\n最低分：70.00\n及格人数：1/1",
+      "purpose": "错误成绩不占用名额；必须在同一轮继续读到合法成绩。"
+    },
+    {
+      "id": "fail",
+      "label": "全部未及格",
+      "input": "2\n30\n50\n",
+      "output": "平均分：40.00\n最高分：50.00\n最低分：30.00\n及格人数：0/2",
+      "purpose": "不要把及格人数误初始化为 1。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "j1",
+      "question": "for-each 中把变量 score 改为 0，会改掉原数组吗？",
+      "answer": "不会。double score 接收的是当前元素的数值副本；修改数组要写 scores[i]。"
+    },
+    {
+      "id": "j2",
+      "question": "为什么要在访问 scores[0] 前检查空数组？",
+      "answer": "长度为 0 时，下标 0 也不存在，访问会越界。"
+    }
+  ],
+  "solution": "import java.util.Arrays;\nimport java.util.Locale;\nimport java.util.Scanner;\n\npublic class GradeProject {\n    public static void main(String[] args) {\n        Locale.setDefault(Locale.US);\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 0) {\n            System.out.println(\"暂无成绩\");\n            return;\n        }\n        double[] scores = new double[n];\n        for (int i = 0; i < scores.length; i++) {\n            double score = sc.nextDouble();\n            while (score < 0 || score > 100) {\n                System.out.println(\"Invalid input\");\n                score = sc.nextDouble();\n            }\n            scores[i] = score;\n        }\n        double total = 0;\n        double highest = scores[0];\n        double lowest = scores[0];\n        int passed = 0;\n        for (double score : scores) {\n            total += score;\n            if (score > highest) highest = score;\n            if (score < lowest) lowest = score;\n            if (score >= 60) passed++;\n        }\n        double[] backup = Arrays.copyOf(scores, scores.length);\n        System.out.printf(\"平均分：%.2f%n\", total / n);\n        System.out.printf(\"最高分：%.2f%n\", highest);\n        System.out.printf(\"最低分：%.2f%n\", lowest);\n        System.out.println(\"及格人数：\" + passed + \"/\" + n);\n        // 周日实验：临时加入 scores[0] = 0; 再观察 backup[0]。\n        // 不应影响 backup；实验后移除额外输出再跑自测。\n    }\n}\n",
+  "solutionExplanation": [
+    "人数不大于 0 时直接结束，避免空数组访问和除以 0。",
+    "录入用普通 for，统计可用 for-each。",
+    "Arrays.copyOf 对本例一维数值数组建立独立副本。"
+  ],
+  "sources": [
+    {
+      "title": "Dev.java：创建和复制数组",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "原创项目；按官方数组、遍历与复制概念设计。"
+    }
+  ]
+}
