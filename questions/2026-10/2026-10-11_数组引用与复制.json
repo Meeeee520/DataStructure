@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "topic": "数组引用与复制",
+  "stage": "数组与顺序表",
+  "language": "Java",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-11_数组引用与复制.md",
+  "collectedAt": "2026-10-11",
+  "sources": [
+    {"title": "Dev.java：创建和复制数组", "url": "https://dev.java/learn/language/constructs/basics/arrays/", "kind": "官方数组教程"},
+    {"title": "Oracle Java Tutorial：Arrays", "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html", "kind": "官方数组复制教程"},
+    {"title": "Java API：java.util.Arrays", "url": "https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html", "kind": "官方 API 文档"}
+  ],
+  "questions": [
+    {
+      "id": "q1", "type": "mcq", "title": "引用赋值", "difficulty": "入门",
+      "prompt": "下面代码输出什么？",
+      "code": "int[] a = {2, 4};\nint[] b = a;\nb[0] = 7;\nSystem.out.println(a[0]);",
+      "options": ["2", "4", "7", "编译错误"], "answer": 2,
+      "explanation": "b = a 只复制引用，a 与 b 指向同一个数组；通过 b 修改下标 0 后，a[0] 也是 7。",
+      "hint": "画一个数组对象，再画 a、b 两支箭头。",
+      "sourceIndex": 0, "attribution": "依据 Dev.java 数组与引用概念编写"
+    },
+    {
+      "id": "q2", "type": "mcq", "title": "copyOf 的新长度", "difficulty": "基础",
+      "prompt": "执行 Arrays.copyOf(new int[]{3, 5}, 4) 得到什么？",
+      "options": ["[3, 5]", "[3, 5, 0, 0]", "[3, 5, null, null]", "抛出异常"], "answer": 1,
+      "explanation": "int[] 副本的新长度为 4；原元素复制过去，多出的 int 位置使用默认值 0。",
+      "hint": "int 的默认值是 0。",
+      "sourceIndex": 2, "attribution": "依据 java.util.Arrays.copyOf API 说明编写"
+    },
+    {
+      "id": "q3", "type": "mcq", "title": "二维数组浅复制", "difficulty": "基础",
+      "prompt": "下面程序最后输出什么？",
+      "code": "int[][] a = {{1, 2}, {3}};\nint[][] b = Arrays.copyOf(a, a.length);\nb[0][1] = 9;\nb[1] = new int[]{7, 8};\nSystem.out.println(a[0][1] + \" \" + a[1].length);",
+      "options": ["2 1", "9 1", "9 2", "2 2"], "answer": 1,
+      "explanation": "内层第 0 行仍共享，所以 a[0][1] 变为 9；但 b[1] 只是替换 b 外层的一个引用，a[1] 仍是原来长度 1 的行。",
+      "hint": "区分“修改共享行里的元素”和“替换某个外层槽位”。",
+      "sourceIndex": 1, "attribution": "依据 Oracle 二维数组与复制概念原创"
+    },
+    {
+      "id": "q4", "type": "short", "title": "副本是否独立", "difficulty": "基础",
+      "prompt": "写出两行唯一输出。",
+      "code": "int[] a = {1, 2, 3};\nint[] b = Arrays.copyOf(a, a.length);\nb[1] = 8;\nSystem.out.println(Arrays.toString(a));\nSystem.out.println(Arrays.toString(b));",
+      "answer": "[1, 2, 3]\n[1, 8, 3]",
+      "explanation": "copyOf 创建新的 int[]；修改 b 不影响 a。",
+      "hint": "两个数组元素起初相同，但不是同一个数组对象。",
+      "sourceIndex": 2, "attribution": "依据 Arrays.copyOf API 编写"
+    },
+    {
+      "id": "q5", "type": "code", "title": "反转副本并保留原数组", "difficulty": "应用",
+      "prompt": "编写 Main.java：先读入非负整数 n，再读入 n 个整数。用 Arrays.copyOf 建立副本，只反转副本，最后按测试格式输出原数组和反转副本。必须正确处理空数组和单元素。",
+      "starter": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] original = new int[n];\n        // TODO：读入、复制、反转副本并输出\n    }\n}\n",
+      "answer": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] original = new int[n];\n        for (int i = 0; i < n; i++) {\n            original[i] = sc.nextInt();\n        }\n\n        int[] reversed = Arrays.copyOf(original, original.length);\n        for (int left = 0, right = reversed.length - 1; left < right; left++, right--) {\n            int temp = reversed[left];\n            reversed[left] = reversed[right];\n            reversed[right] = temp;\n        }\n\n        System.out.println(\"Original: \" + Arrays.toString(original));\n        System.out.println(\"Reversed: \" + Arrays.toString(reversed));\n    }\n}\n",
+      "explanation": "先复制再交换副本两端，原数组不变。空数组时 right=-1，循环条件一开始为假，因此不会越界。网站不执行代码，请在本地保存为 Main.java 后运行。",
+      "tests": [
+        {"input": "4\n10 20 30 40", "output": "Original: [10, 20, 30, 40]\nReversed: [40, 30, 20, 10]"},
+        {"input": "1\n7", "output": "Original: [7]\nReversed: [7]"},
+        {"input": "0", "output": "Original: []\nReversed: []"}
+      ],
+      "hint": "复制后让 left 从 0、right 从 length - 1 开始，只在 left < right 时交换。",
+      "sourceIndex": 2, "attribution": "依据 Arrays.copyOf 官方 API 原创，非官方原题"
+    }
+  ]
+}
+
