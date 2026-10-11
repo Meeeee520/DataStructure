@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-12",
+  "topic": "二维数组与行列索引",
+  "stage": "数组与顺序表",
+  "language": "Java",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-12_二维数组与行列索引.md",
+  "collectedAt": "2026-10-12",
+  "sources": [
+    {"title": "Dev.java：创建数组", "url": "https://dev.java/learn/language/constructs/basics/arrays/", "kind": "官方数组教程"},
+    {"title": "Oracle Java Tutorial：Arrays", "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html", "kind": "官方多维数组教程"}
+  ],
+  "questions": [
+    {
+      "id": "q1", "type": "mcq", "title": "外层与行长度", "difficulty": "入门",
+      "prompt": "下面代码输出什么？", "code": "int[][] a = {{1, 2}, {3}, {4, 5, 6}};\nSystem.out.println(a.length + \" \" + a[1].length);",
+      "options": ["3 1", "3 3", "2 1", "6 3"], "answer": 0,
+      "explanation": "a.length 是外层行数 3；a[1] 是第二行 {3}，长度为 1。",
+      "hint": "分别数外层有几行、下标 1 那一行有几个元素。",
+      "sourceIndex": 1, "attribution": "依据 Oracle 多维数组概念编写"
+    },
+    {
+      "id": "q2", "type": "mcq", "title": "行列索引", "difficulty": "入门",
+      "prompt": "约定 scores[学生][课程]，scores[1][0] 表示什么？",
+      "options": ["第1个学生第2门课", "第2个学生第1门课", "第1门课第2个学生", "总共有2个学生1门课"],
+      "answer": 1,
+      "explanation": "下标从 0 开始；第一个下标 1 是第 2 个学生，第二个下标 0 是第 1 门课。",
+      "hint": "先把两个下标都加 1，再代入约定的含义。",
+      "sourceIndex": 0, "attribution": "依据 Dev.java 数组索引概念编写"
+    },
+    {
+      "id": "q3", "type": "mcq", "title": "不规则数组遍历", "difficulty": "基础",
+      "prompt": "遍历可能每行长度不同的 int[][] a，内层循环最安全的条件是哪一个？",
+      "options": ["j < a.length", "j <= a[i].length", "j < a[0].length", "j < a[i].length"],
+      "answer": 3,
+      "explanation": "Java 二维数组每行可以不同长，应读取当前行 a[i].length，并使用小于号。",
+      "hint": "当前正在遍历第 i 行。",
+      "sourceIndex": 1, "attribution": "依据 Oracle 不规则多维数组说明编写"
+    },
+    {
+      "id": "q4", "type": "short", "title": "嵌套循环追踪", "difficulty": "基础",
+      "prompt": "写出唯一输出，只写数字。", "code": "int[][] a = {{1, 2}, {3, 4}};\nint total = 0;\nfor (int i = 0; i < a.length; i++) {\n    total += a[i][1];\n}\nSystem.out.println(total);",
+      "answer": "6",
+      "explanation": "固定列下标 1，依次取第二列的 2 和 4，总和为 6。",
+      "hint": "i 改变的是行，下标 1 固定为第二列。",
+      "sourceIndex": 0, "attribution": "依据二维数组索引概念原创"
+    },
+    {
+      "id": "q5", "type": "code", "title": "每门课程平均分", "difficulty": "应用",
+      "prompt": "编写 Main.java：第一行读入学生数 n 和课程数 m，再读 n 行、每行 m 个成绩；按课程逐列输出平均分。n 或 m 不大于 0 时输出 No data。格式严格按测试所示。",
+      "starter": "import java.util.Locale;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Locale.setDefault(Locale.US);\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int m = sc.nextInt();\n        // TODO：处理空数据、录入二维数组并按列统计\n    }\n}\n",
+      "answer": "import java.util.Locale;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Locale.setDefault(Locale.US);\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int m = sc.nextInt();\n        if (n <= 0 || m <= 0) {\n            System.out.println(\"No data\");\n            return;\n        }\n\n        double[][] scores = new double[n][m];\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < m; j++) {\n                scores[i][j] = sc.nextDouble();\n            }\n        }\n\n        for (int j = 0; j < m; j++) {\n            double total = 0;\n            for (int i = 0; i < n; i++) {\n                total += scores[i][j];\n            }\n            System.out.printf(\"Course %d: %.2f%n\", j + 1, total / n);\n        }\n    }\n}\n",
+      "explanation": "先处理空尺寸，避免除以 0。录入时按行列写入；统计时外层课程、内层学生，每列重新把 total 设为 0。网站不执行代码，请在本地运行。",
+      "tests": [
+        {"input": "3 2\n60 80\n80 90\n100 100", "output": "Course 1: 80.00\nCourse 2: 90.00"},
+        {"input": "1 1\n75", "output": "Course 1: 75.00"},
+        {"input": "0 2", "output": "No data"}
+      ],
+      "hint": "输出第 j 门课时，固定列 j，内层让学生行 i 从 0 走到 n-1。",
+      "sourceIndex": 1, "attribution": "依据 Oracle 多维数组概念原创，非官方原题"
+    }
+  ]
+}
+
