@@ -72,9 +72,14 @@
   ],
   "sources": [
     {
-      "title": "Dev.java：创建和复制数组",
+      "title": "Dev.java：创建数组",
       "url": "https://dev.java/learn/language/constructs/basics/arrays/",
-      "attribution": "原创项目；按官方数组、遍历与复制概念设计。"
+      "attribution": "原创项目；按官方二维数组、索引和遍历概念设计。"
+    },
+    {
+      "title": "Oracle Java Tutorial：Arrays",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html",
+      "attribution": "用于核对多维数组是数组的数组、行长可以不同；不是官方原题。"
     }
   ]
 }
