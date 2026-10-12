@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "topic": "顺序查找与复杂度直觉",
+  "stage": "数组与顺序表",
+  "language": "Java",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-13_顺序查找与复杂度直觉.md",
+  "collectedAt": "2026-10-13",
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "kind": "官方数组教程"
+    },
+    {
+      "title": "OpenDSA：Searching in an Array",
+      "url": "https://opendsax.cs.vt.edu/OpenDSA/Books/Everything/html/BinarySearch.html#sequential-search",
+      "kind": "大学课程算法资料"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "title": "重复值的第一次位置",
+      "difficulty": "入门",
+      "prompt": "顺序查找从左到右，找到后立即 return。对数组 {5, 2, 5, 8} 查找 5，会返回哪个下标？",
+      "options": [
+        "-1",
+        "0",
+        "2",
+        "4"
+      ],
+      "answer": 1,
+      "explanation": "第一个元素就等于 5，因此立即返回合法下标 0。",
+      "hint": "Java 数组下标从 0 开始，题目要第一次匹配。",
+      "sourceIndex": 1,
+      "attribution": "依据 OpenDSA 顺序查找流程编写"
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "title": "最坏检查次数",
+      "difficulty": "基础",
+      "prompt": "长度为 n 的未排序数组中，目标不存在。标准顺序查找最坏要比较多少个数组元素？",
+      "options": [
+        "0",
+        "1",
+        "n",
+        "log n"
+      ],
+      "answer": 2,
+      "explanation": "只有检查完全部 n 个元素后，才能确认目标不存在；工作量随 n 线性增长。",
+      "hint": "想一想怎样才能确定它真的不在任何位置。",
+      "sourceIndex": 1,
+      "attribution": "依据 OpenDSA 对失败查找与线性成本的分析编写"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "安全循环边界",
+      "difficulty": "入门",
+      "prompt": "遍历 int[] a 的全部合法下标，哪个循环条件正确？",
+      "options": [
+        "i <= a.length",
+        "i < a.length",
+        "i < a.length - 1",
+        "i <= a.length - 2"
+      ],
+      "answer": 1,
+      "explanation": "合法下标是 0 到 a.length - 1，因此循环应在 i == a.length 前停止。",
+      "hint": "最后一个合法下标比 length 小 1。",
+      "sourceIndex": 0,
+      "attribution": "依据 Dev.java 数组索引与 length 概念编写"
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "追踪第一次匹配",
+      "difficulty": "基础",
+      "prompt": "写出唯一一行输出。",
+      "code": "int[] a = {4, 7, 7, 9};\nint target = 7;\nint checks = 0;\nfor (int i = 0; i < a.length; i++) {\n    checks++;\n    if (a[i] == target) {\n        System.out.println(i + \" \" + checks);\n        break;\n    }\n}",
+      "answer": "1 2",
+      "explanation": "先比较下标 0 的 4，再比较下标 1 的 7；在第二次比较找到目标并停止。",
+      "hint": "分别记录 i 和 checks 的变化。",
+      "sourceIndex": 1,
+      "attribution": "依据顺序查找步骤原创"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "返回下标与检查次数",
+      "difficulty": "应用",
+      "prompt": "编写 Main.java：第一行读 n，第二部分读 n 个整数，最后读 target；从左到右查找第一次出现的位置，依次输出 Index 和 Checks。不存在时 Index 为 -1。n 为 0 时仍读取 target，输出 -1 和 0。",
+      "starter": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] a = new int[Math.max(0, n)];\n        // TODO：读入数组与 target，完成顺序查找并输出。\n    }\n}\n",
+      "answer": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = Math.max(0, sc.nextInt());\n        int[] a = new int[n];\n        for (int i = 0; i < n; i++) {\n            a[i] = sc.nextInt();\n        }\n        int target = sc.nextInt();\n        int index = -1;\n        int checks = 0;\n        for (int i = 0; i < a.length; i++) {\n            checks++;\n            if (a[i] == target) {\n                index = i;\n                break;\n            }\n        }\n        System.out.println(\"Index: \" + index);\n        System.out.println(\"Checks: \" + checks);\n    }\n}\n",
+      "explanation": "index 先设为 -1；每次真正比较前增加 checks，第一次匹配后 break。空数组循环零次，因此保留 -1 和 0。",
+      "tests": [
+        {
+          "input": "5\n3 8 2 8 9\n8",
+          "output": "Index: 1\nChecks: 2"
+        },
+        {
+          "input": "3\n4 5 6\n9",
+          "output": "Index: -1\nChecks: 3"
+        },
+        {
+          "input": "0\n7",
+          "output": "Index: -1\nChecks: 0"
+        }
+      ],
+      "hint": "把 index 初始化为 -1；比较发生一次，checks 才加 1。",
+      "sourceIndex": 1,
+      "attribution": "依据 OpenDSA 顺序查找概念原创，非课程原题"
+    }
+  ]
+}

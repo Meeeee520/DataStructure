@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-13",
+  "track": "java",
+  "title": "学生学号顺序查找器",
+  "goal": "在学号数组中从左到右查找目标，输出第一次出现的下标和实际检查次数；正确处理重复、找不到与空数组。",
+  "prerequisites": [
+    "Java 一维数组与 for 循环",
+    "今日笔记：顺序查找与复杂度直觉"
+  ],
+  "filename": "StudentIdSearch.java",
+  "runCommand": "javac StudentIdSearch.java && java StudentIdSearch",
+  "starter": "import java.util.Scanner;\n\npublic class StudentIdSearch {\n    static int[] linearSearch(String[] ids, String target) {\n        // TODO：返回 {第一次出现的下标, 检查次数}。\n        return new int[]{-1, 0};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        // TODO：处理负数人数、读入 n 个学号和目标学号，再输出结果。\n    }\n}\n",
+  "steps": [
+    {
+      "id": "search-contract",
+      "day": "2026-10-13",
+      "title": "先约定返回结果",
+      "instruction": "linearSearch 返回长度为 2 的 int 数组：第 0 项是第一次匹配下标，找不到为 -1；第 1 项是实际检查次数。",
+      "hint": "把 index 的默认值想成 -1；合法下标从 0 开始。",
+      "knowledge": [
+        "返回约定",
+        "数组"
+      ]
+    },
+    {
+      "id": "scan-left-right",
+      "day": "2026-10-13",
+      "title": "从左到右逐个比较",
+      "instruction": "循环条件使用 i < ids.length；每比较一个元素就增加 checks。字符串比较使用 ids[i].equals(target)，第一次匹配立刻返回。",
+      "hint": "String 内容比较不能用 ==；return 会结束本次方法调用。",
+      "knowledge": [
+        "顺序查找",
+        "equals",
+        "提前返回"
+      ]
+    },
+    {
+      "id": "search-boundaries",
+      "day": "2026-10-13",
+      "title": "验证重复、缺失和空数组",
+      "instruction": "运行四组样例。解释为什么重复目标返回第一个位置，目标缺失检查 n 次，空数组检查 0 次。",
+      "hint": "不要在空数组上访问 ids[0]；让循环自然执行零次。",
+      "knowledge": [
+        "边界测试",
+        "O(n) 直觉"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "search-normal",
+      "label": "目标在中间",
+      "input": "4\nS001 S002 S003 S004\nS003\n",
+      "output": "Index: 2\nChecks: 3",
+      "purpose": "检查从下标 0 开始逐个比较并在匹配时停止。"
+    },
+    {
+      "id": "search-duplicate",
+      "label": "重复学号返回第一次位置",
+      "input": "4\nS001 S002 S002 S003\nS002\n",
+      "output": "Index: 1\nChecks: 2",
+      "purpose": "第一次匹配后立即返回，不继续走到第二个重复值。"
+    },
+    {
+      "id": "search-missing",
+      "label": "目标不存在",
+      "input": "3\nS001 S002 S003\nS999\n",
+      "output": "Index: -1\nChecks: 3",
+      "purpose": "失败查找需要检查全部 n 个元素。"
+    },
+    {
+      "id": "search-empty",
+      "label": "空数组",
+      "input": "0\nS001\n",
+      "output": "Index: -1\nChecks: 0",
+      "purpose": "循环零次执行，不访问不存在的下标。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "first-match",
+      "question": "为什么重复学号会返回第一次出现的位置？",
+      "answer": "循环从下标 0 向右，第一次 equals 为 true 时立即 return，后面的元素不再检查。"
+    },
+    {
+      "id": "linear-cost",
+      "question": "为什么目标不存在时顺序查找的最坏成本是 O(n)？",
+      "answer": "必须比较全部 n 个元素才能确认不存在；n 增大多少倍，最坏比较次数也约增大多少倍。"
+    },
+    {
+      "id": "minus-one",
+      "question": "为什么用 -1 表示没找到？",
+      "answer": "Java 数组合法下标从 0 开始，-1 不会与真实位置混淆。"
+    }
+  ],
+  "solution": "import java.util.Scanner;\n\npublic class StudentIdSearch {\n    static int[] linearSearch(String[] ids, String target) {\n        int checks = 0;\n        for (int i = 0; i < ids.length; i++) {\n            checks++;\n            if (ids[i].equals(target)) {\n                return new int[]{i, checks};\n            }\n        }\n        return new int[]{-1, checks};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n < 0) {\n            n = 0;\n        }\n        String[] ids = new String[n];\n        for (int i = 0; i < n; i++) {\n            ids[i] = sc.next();\n        }\n        String target = sc.next();\n        int[] result = linearSearch(ids, target);\n        System.out.println(\"Index: \" + result[0]);\n        System.out.println(\"Checks: \" + result[1]);\n    }\n}\n",
+  "solutionExplanation": [
+    "循环只访问 0 到 length - 1，不会越界；空数组时循环自然执行零次。",
+    "每次真正比较一个学号才增加 checks，第一次匹配立即返回。",
+    "String 用 equals 比较内容，不能用 == 代替。",
+    "目标不存在时检查全部元素并返回 {-1, n}，直观看到线性成本。"
+  ],
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "原创加练；按官方数组索引、length 与循环遍历概念设计。"
+    },
+    {
+      "title": "OpenDSA：Searching in an Array",
+      "url": "https://opendsax.cs.vt.edu/OpenDSA/Books/Everything/html/BinarySearch.html#sequential-search",
+      "attribution": "用于核对顺序查找流程和最坏 n 次比较的线性成本；不是课程原题。"
+    }
+  ]
+}
