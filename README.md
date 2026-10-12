@@ -10,7 +10,7 @@
 
 工作日每天一个 Python 小项目；周六、周日合做一个综合项目。Java 数据结构作为同一场景的可选加练。笔记依旧每天更新，原练习网站继续可用；项目的代码、步骤与复盘按账号保存，个人记录不上传到公开仓库。
 
-今日项目：[把成绩报告变成函数 · 二维数组加练](projects/2026-10/daily-2026-10-12.md)。下一项目预告：学生档案小字典 · 顺序查找加练（内容准备完成后开放）。
+今日项目：[学生档案小字典 · 顺序查找加练](projects/2026-10/daily-2026-10-13.md)。下一项目预告：成绩筛选器与安全备份 · 数组容量与增删加练（内容准备完成后开放）。
 
 ## 每日更新
 
@@ -29,6 +29,7 @@
 | 2026-10-10 | [数组遍历与成绩统计](notes/2026-10/2026-10-10_数组遍历与成绩统计.md) | [打开练习网页](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-10_数组遍历与成绩统计.json) |
 | 2026-10-11 | [数组引用与复制](notes/2026-10/2026-10-11_数组引用与复制.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-11_数组引用与复制.json) |
 | 2026-10-12 | [二维数组与行列索引](notes/2026-10/2026-10-12_二维数组与行列索引.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-12_二维数组与行列索引.json) |
+| 2026-10-13 | [顺序查找与复杂度直觉](notes/2026-10/2026-10-13_顺序查找与复杂度直觉.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-13_顺序查找与复杂度直觉.json) |
 <!-- DAILY_NOTES_END -->
 
 **具体查看方式**：点击上面的笔记标题即可阅读，或进入 `notes → 2026-10 → 日期_知识点名.md`。`.md` 会由 GitHub 排版；`questions` 里的 `.json` 是网站的数据，不是阅读笔记。
