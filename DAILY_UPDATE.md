@@ -2,37 +2,50 @@
 
 ## 范围
 
-仅写入 GitHub 仓库 `Meeeee520/DataStructure` 的 `main` 分支。日期以 Asia/Shanghai 的运行当天为准。与 Python 仓库分别保存内容，但共享既有每日任务和网站课程切换。只写学习资料，不保存私人聊天、账户资料或个人答题记录。
+本文件只约束 GitHub 仓库 `Meeeee520/DataStructure` 的数据结构课程。Python 仓库与网站中的 Python 课程继续按其原计划每日更新笔记和题目，不因本计划暂停或改变。
+
+日期使用 `Asia/Shanghai`。保留全部历史笔记、题目、题号、项目文件和网站进度；不得把“内容已发布”写成“用户已完成”。
 
 ## 每次运行
 
-1. 读取 `LEARNING_PLAN.md`、本文件、`README.md`、`questions/index.json` 和最近一次笔记，确定当日主题。十月按日表；之后优先使用用户的新计划，否则沿主线增加一个合理主题，明确标为延伸安排，不冒充原聊天逐日规划。
-2. 编写美观、中文、适合基础学习的完整 Markdown 笔记。采用目标、概念、可运行 Java 示例与输出、易错点表、2–3 个递进任务、折叠答案、未勾选验收清单、参考与衔接的结构。不要预先断言用户已学会。
-3. 实际上网搜集对应主题的练习。阅读至少两个相关官方/课程来源，优先 Oracle Java、Java 语言规范、MIT/Princeton 等课程资料。核对原题内容、链接和当天先修要求；不要编造题号、URL 或出处。
-4. 保存当天 5 题，默认 3 选择、1 输出、1 Java 编程题。注明原题链接、改编方式或“依据官方概念编写”。找不到适合再发布的原题时，链接原题并写原创变式，不复制完整题库。题目难度应匹配当天，不强加尚未学的算法。
-5. 验证 Java 示例和参考代码、输出与答案。编程题至少运行正常、零/空边界或单元素等有意义输入；必要先检查边界再访问元素。不能运行 Java 时先静态检查并明确报告运行验证的限制，不声称已经运行。网站不运行用户代码。
-6. 笔记写 `notes/YYYY-MM/YYYY-MM-DD_知识点名.md`；题目写 `questions/YYYY-MM/YYYY-MM-DD_知识点名.json`。先写并确认题目，再更新索引，最后维护 README 的 `DAILY_NOTES_START/END` 目录，保留旧内容。直接提交 main，提交信息前缀 `docs: 每日学习笔记`。
-7. 写入后读回内容。已完整存在的当天主题不重复创建；部分成功时只补缺失步骤。短暂检索失败重试一次或换官方来源；仍失败时如实报告，不伪称搜集完成，不删既有资料。
+1. 读取 `LEARNING_PLAN.md`、本文件、`README.md`、`questions/index.json` 和最近笔记，按学习日历确定当天主题。
+2. 编写一份中文 Markdown 笔记，使用 Java 示例，包含通俗解释、核心原理、运行输出、时间与空间复杂度、典型错误、练习及未勾选验收清单。
+3. 生成并验证当天 5 道题。工作日以知识点和短练习为主；周六、周日围绕同一个 Java 小项目，周日不得换项目主题。
+4. 计算此前所有新知识的 D+1、D+7、D+30 到期项，并把每个到期项至少编成一道主动回忆题。题目总量原则上仍为 5 道：到期项优先占题位，其余题位用于当天主题。
+5. 每章结束日加入综合练习与独立实现验收，不能只问概念定义。
+6. 实际运行 Java 示例和参考实现，至少核对一个正常输入与一个有意义的边界输入。
+7. 保存笔记到 `notes/YYYY-MM/YYYY-MM-DD_知识点名.md`，题目到 `questions/YYYY-MM/YYYY-MM-DD_知识点名.json`；再更新索引和 README 目录，保留全部旧内容。
+8. 写入后读回核对。当天完整内容已存在时不重复创建；部分成功时只补缺失部分，不删除历史资料。
 
-## 网站数据契约
+## 12 月 21 日复习模式
 
-与 Python 每日练习兼容，课程入口为 `?course=data-structures`。网站只从此公开仓库读取数据，不持有 GitHub 凭据。云任务通过用户已连接的 GitHub 插件写入，网站关闭时也要完成更新；不能用页面刷新代替写入。不要改变网站私密权限。
+日期大于或等于 `2026-12-21` 时，必须先执行以下硬性判断：
 
-索引：`{"schemaVersion":1,"days":[{"date":"YYYY-MM-DD","topic":"知识点名","path":"questions/YYYY-MM/YYYY-MM-DD_知识点名.json","count":5}]}`。每个日期一条，按日期排序。
+- `mode` 只能是 `review` 或 `chapter-check`。
+- 不得发布新知识、新数据结构、新算法或新的 Java 高级语法。
+- 题目只来自既有章节验收、历史错题变式、未完成题型和 D+1/D+7/D+30 到期复习。
+- 笔记标题使用“复习”“错题整理”“章节验收”或“期末模拟”等，不使用“入门新章节”“拓展”等表述。
+- 如果计划文件与其他旧说明冲突，以本条停止规则为最高优先级。
 
-题目顶层：`schemaVersion:1`、`date`、`topic`、`stage`、`language:"Java"`、`estimatedMinutes`、`notePath`、`collectedAt`、`sources`、`questions`。
+## 间隔复习数据约定
 
-- 阶段使用 `数组与顺序表`、`栈与队列`、`链表与引用`、`综合练习`；以后可用更具体的新阶段。
-- sources 每项含 title、真实 https url、kind；questions 每项含 id、type、title、difficulty、prompt、answer、explanation、hint、sourceIndex、attribution。
-- type 仅使用 mcq、short、code。mcq 的 options 为字符串数组，answer 为零起始选项下标且答案唯一。
-- short 的 answer 为字符串，逐行输出唯一；页面只忽略每行首尾空格与换行格式，不应放需要语义判断的开放题。
-- code 含 starter、answer 和 tests（input/output 字符串数组项）；完整 Java 程序写明类名与文件名。
-- JSON 字符串中的换行必须编码成解码后真正的换行，不能留下字面量反斜杠 n。
-- notePath 与索引 path 指向同一日实际存在的文件；来源索引在 sources 数组范围内。
+题目文件继续兼容原 `schemaVersion: 1`。允许增加以下可选字段，旧网站忽略它们也能正常显示：
 
-写现有文件先 fetch_file 获取当前 blob SHA 后 update_file；明确缺失才 create_file。连接失效时报告需要重新连接。用户未反馈完成情况时，不替其勾选清单。
+- 顶层 `mode`：`lesson`、`weekend-project`、`chapter-check` 或 `review`。
+- 顶层 `reviews`：数组项包含 `sourceDate`、`offset`（1、7 或 30）和 `topic`。
+- 复习题可含 `reviewOf` 与 `reviewOffset`；题号在当天文件内保持唯一，发布后不得改名。
 
+没有到期复习时，使用当天主题的基础题、代码追踪题和编程题补足 5 题；不得为了凑数引入计划外知识。
 
-## 🛠️ 项目学习增补（2026-10-10）
+## 网站与进度保护
 
-每日笔记与原网站五道题继续生成。项目学习的新规则见 [PROJECT_PLAN.md](PROJECT_PLAN.md) 和 [PROJECT_UPDATE.md](PROJECT_UPDATE.md)，同时读取 `projects/index.json`。工作日一个 Python 小项目，Java 为同一场景的可选加练；周六、周日合做同一个综合项目，周日不得新建不同 ID。先写并读回两个仓库的 JSON/Markdown 详情，再更新项目索引 readiness；个人草稿和进度只保存在私人网站，不写公开仓库。两个学习线共用原有时间预算。
+- 课程入口保持 `?course=data-structures`，不改变 Python 入口。
+- 网站从 `questions/index.json` 读取日期，不需要因每日内容更新而重新部署。
+- 不修改进度键、课程键 `data-structures`、既有日期或题号。
+- 个人答案和完成状态只保存在网站现有存储中，不上传公开仓库。
+- 本地版继续由原文件 `启动学习网站.command` 启动；更新内容不能要求用户改用新的启动命令。
+
+## 内容边界
+
+最后一个新知识章节是二叉树节点结构及前序、中序、后序基础遍历。禁止安排 AVL 树、红黑树、堆、图、复杂图算法和竞赛型进阶内容；这些留到下学期正式课程。
+
