@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-14",
+  "topic": "Big O 与增长速度",
+  "stage": "复杂度基础",
+  "language": "Java",
+  "mode": "lesson",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-14_Big_O与增长速度.md",
+  "collectedAt": "2026-10-14",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-13",
+      "offset": 1,
+      "topic": "顺序查找与复杂度直觉"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Princeton Algorithms：Analysis of Algorithms",
+      "url": "https://algs4.cs.princeton.edu/14analysis/",
+      "kind": "大学课程算法分析资料"
+    },
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "kind": "Java 官方数组教程"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1-linear-search",
+      "type": "mcq",
+      "title": "D+1：失败的顺序查找",
+      "difficulty": "复习",
+      "prompt": "长度为 n 的未排序数组中目标不存在。标准顺序查找最坏需要检查多少个元素，时间复杂度是什么？",
+      "options": [
+        "检查 1 个，O(1)",
+        "检查 log n 个，O(log n)",
+        "检查 n 个，O(n)",
+        "检查 n² 个，O(n²)"
+      ],
+      "answer": 2,
+      "explanation": "任何尚未检查的位置都可能保存目标；必须检查全部 n 个元素才能确认不存在，因此最坏成本随 n 线性增长。",
+      "hint": "想一想怎样才能确定最后一个位置也不是目标。",
+      "sourceIndex": 0,
+      "attribution": "D+1 主动回忆；依据前一日顺序查找与 Princeton 增长量级概念编写",
+      "reviewOf": "2026-10-13",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "title": "直接访问数组元素",
+      "difficulty": "入门",
+      "prompt": "在数组非空的前提下，只执行 return a[0];。当数组长度 n 增大时，这一步的时间复杂度是什么？",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "无法分析"
+      ],
+      "answer": 0,
+      "explanation": "按下标直接访问一个元素，操作次数不随数组长度增长，所以是 O(1)。",
+      "hint": "数组变长后，这段代码会不会多访问元素？",
+      "sourceIndex": 1,
+      "attribution": "依据 Dev.java 数组按索引访问概念编写"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "两个连续遍历",
+      "difficulty": "基础",
+      "prompt": "一段代码先完整遍历长度为 n 的数组一次，随后又完整遍历一次。忽略循环体中的常数操作，整体时间复杂度是什么？",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "O(2ⁿ)"
+      ],
+      "answer": 1,
+      "explanation": "总操作量约为 n + n = 2n。省略常数倍后仍是 O(n)；只有嵌套且两层都随 n 增长时才通常得到平方量级。",
+      "hint": "连续循环相加，嵌套循环相乘。",
+      "sourceIndex": 0,
+      "attribution": "依据 Princeton 对增长量级与常数因子的分析编写"
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "追踪线性与成对比较次数",
+      "difficulty": "基础",
+      "prompt": "写出唯一一行输出。",
+      "code": "int n = 4;\nint linear = 0;\nint pairs = 0;\nfor (int i = 0; i < n; i++) {\n    linear++;\n}\nfor (int i = 0; i < n; i++) {\n    for (int j = i + 1; j < n; j++) {\n        pairs++;\n    }\n}\nSystem.out.println(linear + \" \" + pairs);",
+      "answer": "4 6",
+      "explanation": "第一个循环执行 4 次；第二部分比较不同下标对，共 3 + 2 + 1 + 0 = 6 次。",
+      "hint": "分别数，不要把两个计数器混在一起。",
+      "sourceIndex": 0,
+      "attribution": "依据常见线性与平方增长模型原创"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "成绩扫描复杂度计数",
+      "difficulty": "应用",
+      "prompt": "实现 analyze(int[] scores, int minimum)，返回 {达标人数, 线性扫描次数, 不同下标对的比较次数}。线性扫描必须恰好查看每个成绩一次；成对比较只计算 i < j 的组合。网站不执行代码，请在本地调用测试。",
+      "starter": "static int[] analyze(int[] scores, int minimum) {\n    // TODO：返回 {passed, linearChecks, pairChecks}\n    return new int[]{0, 0, 0};\n}\n",
+      "answer": "static int[] analyze(int[] scores, int minimum) {\n    int passed = 0;\n    int linearChecks = 0;\n    for (int score : scores) {\n        linearChecks++;\n        if (score >= minimum) {\n            passed++;\n        }\n    }\n\n    int pairChecks = 0;\n    for (int i = 0; i < scores.length; i++) {\n        for (int j = i + 1; j < scores.length; j++) {\n            pairChecks++;\n        }\n    }\n    return new int[]{passed, linearChecks, pairChecks};\n}",
+      "explanation": "第一段完整遍历一次，是 O(n)；第二段计算所有不同下标对，共 n(n-1)/2 次，是 O(n²)。空数组得到三个 0，单元素没有任何下标对。",
+      "tests": [
+        {
+          "input": "System.out.println(java.util.Arrays.toString(analyze(new int[]{80, 55, 70, 90}, 60)));",
+          "output": "[3, 4, 6]"
+        },
+        {
+          "input": "System.out.println(java.util.Arrays.toString(analyze(new int[]{}, 60)));",
+          "output": "[0, 0, 0]"
+        },
+        {
+          "input": "System.out.println(java.util.Arrays.toString(analyze(new int[]{100}, 60)));",
+          "output": "[1, 1, 0]"
+        }
+      ],
+      "hint": "先用一个独立循环统计达标人数，再用 i 与 j = i + 1 统计不同位置对。",
+      "sourceIndex": 0,
+      "attribution": "依据 Princeton 增长量级概念原创，非课程原题"
+    }
+  ]
+}
