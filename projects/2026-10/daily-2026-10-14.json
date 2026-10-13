@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-14",
+  "track": "java",
+  "title": "成绩扫描复杂度观察器",
+  "goal": "用真实计数比较一次完整扫描与所有不同下标对比较的增长，直观看见 O(n) 和 O(n²) 的区别。",
+  "prerequisites": [
+    "Java 一维数组与 for 循环",
+    "今日笔记：Big O 与增长速度"
+  ],
+  "filename": "ScoreComplexity.java",
+  "runCommand": "javac ScoreComplexity.java && java ScoreComplexity",
+  "starter": "import java.util.Scanner;\n\npublic class ScoreComplexity {\n    static int[] analyze(int[] scores, int minimum) {\n        // TODO：返回 {达标人数, 线性扫描次数, 不同下标对比较次数}。\n        return new int[]{0, 0, 0};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = Math.max(0, sc.nextInt());\n        int[] scores = new int[n];\n        // TODO：读入成绩与 minimum，调用 analyze 并输出三行。\n    }\n}\n",
+  "steps": [
+    {
+      "id": "count-linear-scan",
+      "day": "2026-10-14",
+      "title": "统计一次完整扫描",
+      "instruction": "用一个 for-each 循环检查每个成绩，统计达标人数；每真正检查一个元素，linearChecks 增加 1。",
+      "hint": "空数组时循环零次；长度为 n 时 linearChecks 应恰好等于 n。",
+      "knowledge": [
+        "O(n)",
+        "数组遍历"
+      ]
+    },
+    {
+      "id": "count-index-pairs",
+      "day": "2026-10-14",
+      "title": "统计所有不同下标对",
+      "instruction": "外层 i 从 0 开始，内层 j 从 i + 1 开始；每遇到一个 i < j 的组合就增加 pairChecks。",
+      "hint": "这样不会比较自己，也不会把 (i, j) 与 (j, i) 重复计算。",
+      "knowledge": [
+        "O(n²)",
+        "嵌套循环"
+      ]
+    },
+    {
+      "id": "explain-growth",
+      "day": "2026-10-14",
+      "title": "从输出解释增长",
+      "instruction": "分别用 n = 0、1、4 的样例运行。说明为什么线性次数是 n，而成对次数是 n(n-1)/2。",
+      "hint": "n = 4 时，不同位置对是 3 + 2 + 1 = 6。",
+      "knowledge": [
+        "增长速度",
+        "边界测试"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "complexity-normal",
+      "label": "四个成绩",
+      "input": "4\n80 55 70 90\n60\n",
+      "output": "Passed: 3\nLinear checks: 4\nPair checks: 6",
+      "purpose": "同时验证达标统计、n 次扫描和 n(n-1)/2 次成对比较。"
+    },
+    {
+      "id": "complexity-empty",
+      "label": "空数组",
+      "input": "0\n60\n",
+      "output": "Passed: 0\nLinear checks: 0\nPair checks: 0",
+      "purpose": "两个循环都执行零次，不访问不存在的元素。"
+    },
+    {
+      "id": "complexity-single",
+      "label": "单元素数组",
+      "input": "1\n100\n60\n",
+      "output": "Passed: 1\nLinear checks: 1\nPair checks: 0",
+      "purpose": "单元素需要扫描一次，但没有两个不同位置可比较。"
+    },
+    {
+      "id": "complexity-none-pass",
+      "label": "无人达标但扫描次数不变",
+      "input": "3\n10 20 30\n60\n",
+      "output": "Passed: 0\nLinear checks: 3\nPair checks: 3",
+      "purpose": "达标人数不会改变完整遍历和位置对的结构性次数。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "linear-meaning",
+      "question": "为什么扫描所有成绩是 O(n)？",
+      "answer": "数组每增加一个元素，完整扫描大约多做一次检查；长度为 n 时检查 n 次。"
+    },
+    {
+      "id": "pair-growth",
+      "question": "为什么不同下标对的数量是平方量级？",
+      "answer": "共有 n(n-1)/2 个不同位置对，最高增长项是 n²，因此是 O(n²)。"
+    },
+    {
+      "id": "single-boundary",
+      "question": "单元素数组为什么 linearChecks 为 1、pairChecks 为 0？",
+      "answer": "唯一元素仍要扫描一次，但找不到两个不同下标组成一对。"
+    }
+  ],
+  "solution": "import java.util.Scanner;\n\npublic class ScoreComplexity {\n    static int[] analyze(int[] scores, int minimum) {\n        int passed = 0;\n        int linearChecks = 0;\n        for (int score : scores) {\n            linearChecks++;\n            if (score >= minimum) {\n                passed++;\n            }\n        }\n\n        int pairChecks = 0;\n        for (int i = 0; i < scores.length; i++) {\n            for (int j = i + 1; j < scores.length; j++) {\n                pairChecks++;\n            }\n        }\n        return new int[]{passed, linearChecks, pairChecks};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = Math.max(0, sc.nextInt());\n        int[] scores = new int[n];\n        for (int i = 0; i < n; i++) {\n            scores[i] = sc.nextInt();\n        }\n        int minimum = sc.nextInt();\n        int[] result = analyze(scores, minimum);\n        System.out.println(\"Passed: \" + result[0]);\n        System.out.println(\"Linear checks: \" + result[1]);\n        System.out.println(\"Pair checks: \" + result[2]);\n    }\n}\n",
+  "solutionExplanation": [
+    "第一个循环无论有多少人达标都检查每个元素一次，所以 linearChecks 等于 n，时间是 O(n)。",
+    "第二组循环只统计 i < j 的位置对，共 n(n-1)/2 次，最高增长项为 n²。",
+    "只使用固定数量的计数变量，除输入数组外的额外空间是 O(1)。",
+    "空数组和单元素数组由循环边界自然处理，不需要访问 scores[0]。"
+  ],
+  "sources": [
+    {
+      "title": "Princeton Algorithms：Analysis of Algorithms",
+      "url": "https://algs4.cs.princeton.edu/14analysis/",
+      "attribution": "原创加练；按课程中的输入规模与常见增长量级设计。"
+    },
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "用于核对 Java 数组长度、索引与遍历；不是官方原题。"
+    }
+  ]
+}
