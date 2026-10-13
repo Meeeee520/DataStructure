@@ -30,6 +30,12 @@
       "topic": "顺序查找与复杂度直觉",
       "path": "questions/2026-10/2026-10-13_顺序查找与复杂度直觉.json",
       "count": 5
+    },
+    {
+      "date": "2026-10-14",
+      "topic": "Big O 与增长速度",
+      "path": "questions/2026-10/2026-10-14_Big_O与增长速度.json",
+      "count": 5
     }
   ]
 }
