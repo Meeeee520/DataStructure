@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-15",
+  "track": "java",
+  "title": "循环增长观察器",
+  "goal": "用计数器比较线性、成对和翻倍循环在同一输入规模下的工作量，并把它们分别对应到 O(n)、O(n²) 与 O(log n)。",
+  "prerequisites": [
+    "Java for 与 while 循环",
+    "今日笔记：循环结构与复杂度判断"
+  ],
+  "filename": "LoopGrowth.java",
+  "runCommand": "javac LoopGrowth.java && java LoopGrowth",
+  "starter": "import java.util.Scanner;\n\npublic class LoopGrowth {\n    static int[] countWork(int n) {\n        // TODO：返回 {linear, pairs, doubling}。\n        return new int[]{0, 0, 0};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        // TODO：调用 countWork，并输出三行结果。\n    }\n}\n",
+  "steps": [
+    {
+      "id": "count-linear-loop",
+      "day": "2026-10-15",
+      "title": "统计线性循环",
+      "instruction": "先把 n 限制为至少 0；让第一个循环执行 n 次，每轮增加 linear。",
+      "hint": "n 为 0 时循环自然执行零次。",
+      "knowledge": [
+        "O(n)",
+        "for 循环"
+      ]
+    },
+    {
+      "id": "count-triangular-loop",
+      "day": "2026-10-15",
+      "title": "统计不同位置对",
+      "instruction": "外层 i 从 0 开始，内层 j 从 i + 1 开始；每个 i < j 的组合让 pairs 增加 1。",
+      "hint": "n = 8 时应得到 7 + 6 + ... + 1 = 28。",
+      "knowledge": [
+        "O(n²)",
+        "嵌套循环"
+      ]
+    },
+    {
+      "id": "count-doubling-loop",
+      "day": "2026-10-15",
+      "title": "统计翻倍轮数",
+      "instruction": "size 从 1 开始，在小于 n 时记录一轮；每轮翻倍，并在下一次翻倍可能越过 int 范围前结束。",
+      "hint": "size > n / 2 时，本轮之后已经无需真正计算 size * 2。",
+      "knowledge": [
+        "O(log n)",
+        "while 循环"
+      ]
+    },
+    {
+      "id": "verify-boundaries",
+      "day": "2026-10-15",
+      "title": "核对正常与边界输入",
+      "instruction": "依次运行 n = 8、0、1、2，核对三个计数；说明为什么三种方法都只额外使用固定数量变量。",
+      "hint": "n = 1 时没有位置对，也无需翻倍。",
+      "knowledge": [
+        "边界测试",
+        "O(1) 额外空间"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "growth-eight",
+      "label": "典型输入 8",
+      "input": "8\n",
+      "output": "Linear: 8\nPairs: 28\nDoubling: 3",
+      "purpose": "同时验证线性、三角形与翻倍循环的计数。"
+    },
+    {
+      "id": "growth-zero",
+      "label": "零规模",
+      "input": "0\n",
+      "output": "Linear: 0\nPairs: 0\nDoubling: 0",
+      "purpose": "所有循环都应执行零次。"
+    },
+    {
+      "id": "growth-one",
+      "label": "单元素规模",
+      "input": "1\n",
+      "output": "Linear: 1\nPairs: 0\nDoubling: 0",
+      "purpose": "线性循环执行一次，但没有位置对且无需翻倍。"
+    },
+    {
+      "id": "growth-two",
+      "label": "最小翻倍规模",
+      "input": "2\n",
+      "output": "Linear: 2\nPairs: 1\nDoubling: 1",
+      "purpose": "验证一个位置对与一次翻倍。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "add-or-multiply",
+      "question": "为什么连续两个 n 次循环是 O(n)，而两层 n 次嵌套循环是 O(n²)？",
+      "answer": "连续执行的次数相加为 2n；嵌套执行的次数相乘为 n²。"
+    },
+    {
+      "id": "triangular-growth",
+      "question": "为什么只计算 i < j 的位置对仍是 O(n²)？",
+      "answer": "位置对共有 n(n-1)/2 个，常数 1/2 和低阶项不改变平方增长量级。"
+    },
+    {
+      "id": "doubling-growth",
+      "question": "为什么每轮翻倍只需要 O(log n) 轮？",
+      "answer": "执行 k 轮后规模约为 2ᵏ；达到 n 所需的 k 约为 log₂ n。"
+    }
+  ],
+  "solution": "import java.util.Scanner;\n\npublic class LoopGrowth {\n    static int[] countWork(int n) {\n        n = Math.max(0, n);\n\n        int linear = 0;\n        for (int i = 0; i < n; i++) {\n            linear++;\n        }\n\n        int pairs = 0;\n        for (int i = 0; i < n; i++) {\n            for (int j = i + 1; j < n; j++) {\n                pairs++;\n            }\n        }\n\n        int doubling = 0;\n        int size = 1;\n        while (size < n) {\n            doubling++;\n            if (size > n / 2) {\n                break;\n            }\n            size *= 2;\n        }\n        return new int[]{linear, pairs, doubling};\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] result = countWork(sc.nextInt());\n        System.out.println(\"Linear: \" + result[0]);\n        System.out.println(\"Pairs: \" + result[1]);\n        System.out.println(\"Doubling: \" + result[2]);\n    }\n}\n",
+  "solutionExplanation": [
+    "第一个循环执行 n 次，展示 O(n) 的线性增长。",
+    "嵌套循环只枚举 i < j，共 n(n-1)/2 次，仍是 O(n²)。",
+    "翻倍循环大约执行 log₂ n 次；在继续乘 2 前检查 n / 2，避免 int 溢出。",
+    "三个计数只使用固定数量的局部变量，额外工作空间为 O(1)。"
+  ],
+  "sources": [
+    {
+      "title": "Princeton Algorithms：Analysis of Algorithms",
+      "url": "https://algs4.cs.princeton.edu/14analysis/",
+      "attribution": "原创加练；按课程中的输入规模与常见增长量级设计。"
+    },
+    {
+      "title": "Dev.java：Controlling the Flow of Your Application",
+      "url": "https://dev.java/learn/language-basics/controlling-flow/",
+      "attribution": "用于核对 Java 的 for、while 与 break；不是官方原题。"
+    }
+  ]
+}
