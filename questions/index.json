@@ -36,6 +36,12 @@
       "topic": "Big O 与增长速度",
       "path": "questions/2026-10/2026-10-14_Big_O与增长速度.json",
       "count": 5
+    },
+    {
+      "date": "2026-10-15",
+      "topic": "循环结构与复杂度判断",
+      "path": "questions/2026-10/2026-10-15_循环结构与复杂度判断.json",
+      "count": 5
     }
   ]
 }
