@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "topic": "循环结构与复杂度判断",
+  "stage": "复杂度基础",
+  "language": "Java",
+  "mode": "lesson",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-15_循环结构与复杂度判断.md",
+  "collectedAt": "2026-10-15",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-14",
+      "offset": 1,
+      "topic": "Big O 与增长速度"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Princeton Algorithms：Analysis of Algorithms",
+      "url": "https://algs4.cs.princeton.edu/14analysis/",
+      "kind": "大学课程算法分析资料"
+    },
+    {
+      "title": "Dev.java：Controlling the Flow of Your Application",
+      "url": "https://dev.java/learn/language-basics/controlling-flow/",
+      "kind": "Java 官方控制流教程"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1-big-o",
+      "type": "mcq",
+      "title": "D+1：连续遍历的增长量级",
+      "difficulty": "复习",
+      "prompt": "两个先后执行的循环各完整遍历长度为 n 的数组一次。整体最坏时间复杂度是什么？",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "answer": 2,
+      "explanation": "两个循环的次数相加得到 n + n = 2n；忽略常数倍后仍是 O(n)，并没有彼此嵌套。",
+      "hint": "连续循环相加，嵌套循环才相乘。",
+      "sourceIndex": 0,
+      "attribution": "D+1 主动回忆；依据前一日 Big O 笔记与 Princeton 增长量级概念编写",
+      "reviewOf": "2026-10-14",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "title": "每轮翻倍的循环",
+      "difficulty": "基础",
+      "prompt": "循环变量从 1 开始，每轮乘 2，直到不小于 n。循环次数属于哪个量级？",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "answer": 1,
+      "explanation": "执行 k 轮后变量约为 2ᵏ；达到 n 只需约 log₂ n 轮，因此是 O(log n)。",
+      "hint": "写出 1、2、4、8、16，观察达到 n 需要几次翻倍。",
+      "sourceIndex": 0,
+      "attribution": "依据 Princeton 常见增长量级概念原创"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "提前结束的最坏情况",
+      "difficulty": "基础",
+      "prompt": "顺序查找找到目标时立即 return。若目标可能不存在，最坏时间复杂度是什么？",
+      "options": [
+        "O(1)，因为代码里有 return",
+        "O(log n)，因为可以提前结束",
+        "O(n)，因为最坏时检查全部元素",
+        "O(n²)，因为同时比较目标与元素"
+      ],
+      "answer": 2,
+      "explanation": "目标在最后或不存在时仍需检查 n 个元素，所以最坏情况是 O(n)；提前返回只改善部分输入。",
+      "hint": "把目标不存在作为输入来追踪循环。",
+      "sourceIndex": 1,
+      "attribution": "依据 Java 控制流与最坏情况分析原创"
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "追踪三种循环次数",
+      "difficulty": "基础",
+      "prompt": "写出唯一一行输出。",
+      "code": "int n = 8;\nint linear = 0;\nint pairs = 0;\nint doubling = 0;\nfor (int i = 0; i < n; i++) linear++;\nfor (int i = 0; i < n; i++) {\n    for (int j = i + 1; j < n; j++) pairs++;\n}\nfor (int size = 1; size < n; size *= 2) doubling++;\nSystem.out.println(linear + \" \" + pairs + \" \" + doubling);",
+      "answer": "8 28 3",
+      "explanation": "线性循环执行 8 次；不同位置对有 8×7/2=28 对；翻倍变量取 1、2、4，共 3 轮。",
+      "hint": "三种计数分别计算，不要用复杂度符号代替精确次数。",
+      "sourceIndex": 0,
+      "attribution": "依据线性、平方与对数增长模型原创"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "实现循环工作量计数器",
+      "difficulty": "应用",
+      "prompt": "实现 countWork(int n)，返回 {线性循环次数, i < j 的位置对次数, 从 1 开始每轮翻倍直到不小于 n 的次数}。把负数 n 当作 0；翻倍时避免 int 溢出。网站不执行代码，请在本地调用测试。",
+      "starter": "static int[] countWork(int n) {\n    // TODO：返回 {linear, pairs, doubling}\n    return new int[]{0, 0, 0};\n}\n",
+      "answer": "static int[] countWork(int n) {\n    n = Math.max(0, n);\n    int linear = 0;\n    for (int i = 0; i < n; i++) linear++;\n\n    int pairs = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) pairs++;\n    }\n\n    int doubling = 0;\n    int size = 1;\n    while (size < n) {\n        doubling++;\n        if (size > n / 2) break;\n        size *= 2;\n    }\n    return new int[]{linear, pairs, doubling};\n}",
+      "explanation": "三个循环分别展示 O(n)、O(n²) 与 O(log n) 的增长。size 已超过 n/2 时，再翻倍才会达到或越过 n，因此可直接结束并避免 int 溢出。",
+      "tests": [
+        {
+          "input": "System.out.println(java.util.Arrays.toString(countWork(8)));",
+          "output": "[8, 28, 3]"
+        },
+        {
+          "input": "System.out.println(java.util.Arrays.toString(countWork(0)));",
+          "output": "[0, 0, 0]"
+        },
+        {
+          "input": "System.out.println(java.util.Arrays.toString(countWork(1)));",
+          "output": "[1, 0, 0]"
+        },
+        {
+          "input": "System.out.println(java.util.Arrays.toString(countWork(2)));",
+          "output": "[2, 1, 1]"
+        }
+      ],
+      "hint": "先分别写三个计数；翻倍循环可在 size > n / 2 时结束，避免下一次乘 2 溢出。",
+      "sourceIndex": 0,
+      "attribution": "依据 Princeton 增长量级概念原创，非课程原题"
+    }
+  ]
+}
