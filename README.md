@@ -18,7 +18,7 @@
 
 10 月 9–13 日已经发布的项目资料与个人进度全部保留。从 10 月 17 日起，数据结构工作日不额外叠加大型项目；周末两天继续同一个 Java 项目。项目目标、起始代码、自测与参考实现会放入当日笔记和练习，仍使用原数据结构网站完成。
 
-今日可选小练习：[循环增长观察器](projects/2026-10/daily-2026-10-15.md)。
+本周末项目：[数组操作成本分析器](projects/2026-10/weekend-2026-10-17.md)（10 月 17–18 日共用；周日继续同一项目）。
 
 ## 每日更新
 
@@ -40,6 +40,8 @@
 | 2026-10-13 | [顺序查找与复杂度直觉](notes/2026-10/2026-10-13_顺序查找与复杂度直觉.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-13_顺序查找与复杂度直觉.json) |
 | 2026-10-14 | [Big O 与增长速度](notes/2026-10/2026-10-14_Big_O与增长速度.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-14_Big_O与增长速度.json) |
 | 2026-10-15 | [循环结构与复杂度判断](notes/2026-10/2026-10-15_循环结构与复杂度判断.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-15_循环结构与复杂度判断.json) |
+| 2026-10-16 | [复杂度基础综合验收](notes/2026-10/2026-10-16_复杂度基础综合验收.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-16_复杂度基础综合验收.json) |
+| 2026-10-17 | [周末项目一：数组操作成本分析器](notes/2026-10/2026-10-17_周末项目一数组操作成本分析器.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-17_周末项目一数组操作成本分析器.json) |
 <!-- DAILY_NOTES_END -->
 
 点击上面的笔记标题即可阅读，或进入 `notes → YYYY-MM → 日期_知识点名.md`。`.md` 是阅读笔记；`questions` 里的 `.json` 是网站读取的数据。
