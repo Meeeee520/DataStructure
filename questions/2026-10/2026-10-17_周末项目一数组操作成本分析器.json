@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-17",
+  "topic": "周末项目一：数组操作成本分析器",
+  "stage": "复杂度基础",
+  "language": "Java",
+  "mode": "weekend-project",
+  "estimatedMinutes": 30,
+  "notePath": "notes/2026-10/2026-10-17_周末项目一数组操作成本分析器.md",
+  "collectedAt": "2026-10-17",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-10",
+      "offset": 7,
+      "topic": "数组遍历与成绩统计"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "kind": "Java 官方数组教程"
+    },
+    {
+      "title": "Princeton Algorithms：Analysis of Algorithms",
+      "url": "https://algs4.cs.princeton.edu/14analysis/",
+      "kind": "大学课程算法分析资料"
+    },
+    {
+      "title": "OpenDSA：Array-Based List Implementation",
+      "url": "https://opendsa-server.cs.vt.edu/ODSA/Books/ncc/csce210/spring-2025/MWF_920am/html/ListArray.html",
+      "kind": "大学数据结构课程资料"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d7-traversal",
+      "type": "mcq",
+      "title": "D+7：数组求和",
+      "difficulty": "复习",
+      "prompt": "用一个循环访问长度为 n 的成绩数组并累加，只使用固定数量变量。时间与额外空间复杂度是什么？",
+      "options": ["O(1)，O(1)", "O(n)，O(1)", "O(n)，O(n)", "O(n²)，O(1)"],
+      "answer": 1,
+      "explanation": "循环访问每个元素一次，时间 O(n)；sum 与循环变量数量固定，额外空间 O(1)。",
+      "hint": "分别数访问次数和新增变量数量。",
+      "sourceIndex": 1,
+      "attribution": "D+7 主动回忆；依据 2026-10-10 数组遍历内容编写",
+      "reviewOf": "2026-10-10",
+      "reviewOffset": 7
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "title": "容量与有效长度",
+      "difficulty": "基础",
+      "prompt": "int[] values = new int[6]，当前只存了 4 个有效元素。遍历真实数据时应使用什么边界？",
+      "options": [
+        "i <= values.length",
+        "i < values.length，无需其他变量",
+        "维护 size = 4，并使用 i < size",
+        "从 i = 1 遍历到 6"
+      ],
+      "answer": 2,
+      "explanation": "数组 length 表示容量；有效数据可能少于容量，应单独维护 size 并只遍历 0 到 size-1。",
+      "hint": "空余格的默认 0 不一定是真实数据。",
+      "sourceIndex": 0,
+      "attribution": "依据 Java 数组固定长度与项目模型原创"
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "中间插入移动方向",
+      "difficulty": "基础",
+      "prompt": "有效数组 [10,20,30,40] 在下标 1 插入 15。为避免覆盖原数据，元素应怎样移动？",
+      "options": [
+        "从下标 1 开始向右逐项正序移动",
+        "从最后一个有效元素开始向右倒序移动",
+        "先把所有元素设为 0",
+        "无需移动，直接覆盖下标 1"
+      ],
+      "answer": 1,
+      "explanation": "必须从右向左移动 40、30、20，先腾出下标 1；正序移动会覆盖尚未复制的值。",
+      "hint": "先保护最右边的原值。",
+      "sourceIndex": 2,
+      "attribution": "依据 OpenDSA 连续数组插入原理编写"
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "查找次数追踪",
+      "difficulty": "基础",
+      "prompt": "写出唯一一行输出。",
+      "code": "int[] values = {10, 20, 30, 0, 0};\nint size = 3;\nint target = 30;\nint index = -1;\nint checks = 0;\nfor (int i = 0; i < size; i++) {\n    checks++;\n    if (values[i] == target) { index = i; break; }\n}\nSystem.out.println(index + \" \" + checks);",
+      "answer": "2 3",
+      "explanation": "有效元素依次检查 10、20、30，第三次在下标 2 命中。空余容量不参与查找。",
+      "hint": "下标从 0 开始，checks 从 1 开始累计实际访问。",
+      "sourceIndex": 0,
+      "attribution": "依据数组有效长度与顺序查找原创"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "实现带计数的顺序查找",
+      "difficulty": "项目",
+      "prompt": "实现 findWithChecks(int[] values, int size, int target)，只检查前 size 个有效元素，返回 {首次命中的下标或 -1, 实际检查次数}。假设 0 <= size <= values.length。网站不执行代码，请在本地调用测试。",
+      "starter": "static int[] findWithChecks(int[] values, int size, int target) {\n    return new int[]{-1, 0};\n}\n",
+      "answer": "static int[] findWithChecks(int[] values, int size, int target) {\n    for (int i = 0; i < size; i++) {\n        if (values[i] == target) {\n            return new int[]{i, i + 1};\n        }\n    }\n    return new int[]{-1, size};\n}",
+      "explanation": "第 i 个下标命中时已检查 i+1 个元素；不存在时恰好检查全部 size 个有效元素，不读取空余容量。",
+      "tests": [
+        {"input": "System.out.println(java.util.Arrays.toString(findWithChecks(new int[]{10,20,30,0}, 3, 10)));", "output": "[0, 1]"},
+        {"input": "System.out.println(java.util.Arrays.toString(findWithChecks(new int[]{10,20,30,0}, 3, 30)));", "output": "[2, 3]"},
+        {"input": "System.out.println(java.util.Arrays.toString(findWithChecks(new int[]{10,20,30,0}, 3, 0)));", "output": "[-1, 3]"},
+        {"input": "System.out.println(java.util.Arrays.toString(findWithChecks(new int[]{0,0}, 0, 0)));", "output": "[-1, 0]"}
+      ],
+      "hint": "命中时检查次数是 i + 1；循环结束仍未命中时是 size。",
+      "sourceIndex": 1,
+      "attribution": "依据顺序查找与最坏情况分析原创，非课程原题"
+    }
+  ]
+}
