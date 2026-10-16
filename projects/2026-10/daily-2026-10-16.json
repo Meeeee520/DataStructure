@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-16",
+  "track": "java",
+  "title": "成绩数组扩容器",
+  "goal": "从固定容量数组开始，在空间不足时创建两倍容量的新数组并复制已有成绩，观察一次扩容为何需要 O(n) 时间。",
+  "prerequisites": [
+    "Java 数组、循环与 Arrays.copyOf",
+    "复杂度基础综合验收"
+  ],
+  "filename": "DynamicScoreArray.java",
+  "runCommand": "javac DynamicScoreArray.java && java DynamicScoreArray",
+  "starter": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class DynamicScoreArray {\n    static int[] grow(int[] values) {\n        // TODO：容量为 0 时变 1，否则翻倍。\n        return values;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = Math.max(0, sc.nextInt());\n        int n = Math.max(0, sc.nextInt());\n        // TODO：读入 n 个成绩，空间不足时扩容。\n    }\n}\n",
+  "steps": [
+    {
+      "id": "create-capacity",
+      "day": "2026-10-16",
+      "title": "区分容量与有效长度",
+      "instruction": "根据 capacity 创建数组，并用 size 记录已经放入的成绩数。",
+      "hint": "values.length 是容量，size 才是有效元素数。",
+      "knowledge": ["数组容量", "size"]
+    },
+    {
+      "id": "grow-by-doubling",
+      "day": "2026-10-16",
+      "title": "容量不足时翻倍",
+      "instruction": "size == values.length 时，容量 0 扩为 1，否则扩为原来的两倍。",
+      "hint": "Arrays.copyOf 会创建新数组并复制旧值。",
+      "knowledge": ["Arrays.copyOf", "扩容"]
+    },
+    {
+      "id": "append-scores",
+      "day": "2026-10-16",
+      "title": "继续追加成绩",
+      "instruction": "每次确保有空间后写 values[size]，再让 size 增加 1。",
+      "hint": "顺序不能反，否则可能跳过下标 0 或越界。",
+      "knowledge": ["数组写入", "边界"]
+    },
+    {
+      "id": "explain-copy-cost",
+      "day": "2026-10-16",
+      "title": "解释扩容成本",
+      "instruction": "说明一次复制当前 n 个有效元素的扩容为何是 O(n)，并运行 0 容量与无需扩容样例。",
+      "hint": "复制次数随已有元素数增长。",
+      "knowledge": ["O(n)", "边界测试"]
+    }
+  ],
+  "tests": [
+    {"id":"grow-normal","label":"从容量 1 连续扩容","input":"1\n3\n60 80 100\n","output":"Size: 3\nCapacity: 4\nValues: [60, 80, 100]","purpose":"容量依次从 1 扩到 2、4。"},
+    {"id":"grow-empty","label":"零条成绩","input":"0\n0\n","output":"Size: 0\nCapacity: 0\nValues: []","purpose":"没有数据时无需分配额外空间。"},
+    {"id":"grow-from-zero","label":"零容量加入一项","input":"0\n1\n100\n","output":"Size: 1\nCapacity: 1\nValues: [100]","purpose":"避免 0 乘 2 仍为 0。"},
+    {"id":"grow-no-copy","label":"容量刚好够用","input":"2\n2\n0 100\n","output":"Size: 2\nCapacity: 2\nValues: [0, 100]","purpose":"无需扩容并保留上下边界。"}
+  ],
+  "recall": [
+    {"id":"capacity-size","question":"capacity 与 size 有什么区别？","answer":"capacity 是数组可容纳的格子数；size 是当前有效元素数，满足 0 <= size <= capacity。"},
+    {"id":"zero-growth","question":"为什么容量 0 时不能直接乘 2？","answer":"0 乘 2 仍是 0，无法写入第一个元素；应至少扩为 1。"},
+    {"id":"copy-time","question":"一次把 n 个旧元素复制到新数组的时间复杂度是什么？","answer":"需要处理 n 个元素，因此是 O(n)。"}
+  ],
+  "solution": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class DynamicScoreArray {\n    static int[] grow(int[] values) {\n        int newCapacity = values.length == 0 ? 1 : values.length * 2;\n        return Arrays.copyOf(values, newCapacity);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = Math.max(0, sc.nextInt());\n        int n = Math.max(0, sc.nextInt());\n        int[] values = new int[capacity];\n        int size = 0;\n        for (int i = 0; i < n; i++) {\n            if (size == values.length) {\n                values = grow(values);\n            }\n            values[size] = sc.nextInt();\n            size++;\n        }\n        System.out.println(\"Size: \" + size);\n        System.out.println(\"Capacity: \" + values.length);\n        System.out.println(\"Values: \" + Arrays.toString(Arrays.copyOf(values, size)));\n    }\n}\n",
+  "solutionExplanation": [
+    "size 与 values.length 分开维护，空余容量不会被当作真实成绩。",
+    "容量为 0 时先扩为 1，其余情况翻倍，保证每次追加前都有合法下标。",
+    "Arrays.copyOf 创建新数组并复制旧内容，因此单次扩容要处理已有元素，成本为 O(n)。",
+    "输出时只复制前 size 个有效元素，避免展示空余位置的默认 0。"
+  ],
+  "sources": [
+    {"title":"Dev.java：Creating Arrays in Your Programs","url":"https://dev.java/learn/language/constructs/basics/arrays/","attribution":"原创加练；依据数组固定长度与复制概念设计。"},
+    {"title":"Princeton Algorithms：Analysis of Algorithms","url":"https://algs4.cs.princeton.edu/14analysis/","attribution":"用于核对复制操作随输入规模线性增长；不是课程原题。"}
+  ]
+}
