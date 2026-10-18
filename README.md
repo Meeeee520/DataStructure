@@ -43,6 +43,7 @@
 | 2026-10-16 | [复杂度基础综合验收](notes/2026-10/2026-10-16_复杂度基础综合验收.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-16_复杂度基础综合验收.json) |
 | 2026-10-17 | [周末项目一：数组操作成本分析器](notes/2026-10/2026-10-17_周末项目一数组操作成本分析器.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-17_周末项目一数组操作成本分析器.json) |
 | 2026-10-18 | [周末项目一：边界测试与复杂度验收](notes/2026-10/2026-10-18_周末项目一边界测试与复杂度验收.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-18_周末项目一边界测试与复杂度验收.json) |
+| 2026-10-19 | [数组有效长度与插入](notes/2026-10/2026-10-19_数组有效长度与插入.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-19_数组有效长度与插入.json) |
 <!-- DAILY_NOTES_END -->
 
 点击上面的笔记标题即可阅读，或进入 `notes → YYYY-MM → 日期_知识点名.md`。`.md` 是阅读笔记；`questions` 里的 `.json` 是网站读取的数据。
