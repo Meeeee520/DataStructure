@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-19",
+  "track": "java",
+  "title": "数组插入小练习（可选）",
+  "goal": "在 20 分钟以内用今日同一份插入练习巩固有效长度、倒序右移和失败不改状态；不是额外大型项目，不增加数据结构章节。",
+  "prerequisites": [
+    "Java 数组、循环、方法参数",
+    "有效长度、插入位置和 O(n) 移动成本"
+  ],
+  "filename": "InsertionPractice.java",
+  "runCommand": "javac InsertionPractice.java && java InsertionPractice",
+  "starter": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class InsertionPractice {\n    // 前提：values 非 null，0 <= size <= values.length。\n    static int insertAt(int[] values, int size, int index, int value) {\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = sc.nextInt();\n        int size = sc.nextInt();\n        if (capacity < 0 || size < 0 || size > capacity) {\n            System.out.println(\"Invalid model\");\n            return;\n        }\n        int[] values = new int[capacity];\n        for (int i = 0; i < size; i++) {\n            values[i] = sc.nextInt();\n        }\n        int index = sc.nextInt();\n        int value = sc.nextInt();\n        int shifts = insertAt(values, size, index, value);\n        if (shifts >= 0) {\n            size++;\n        }\n        System.out.println(\"Shifts: \" + shifts);\n        System.out.println(\"Size: \" + size);\n        System.out.println(\"Values: \" + Arrays.toString(Arrays.copyOf(values, size)));\n    }\n}",
+  "steps": [
+    {
+      "id": "validate-position",
+      "day": "2026-10-19",
+      "title": "先写成功与失败的条件",
+      "instruction": "保持 0<=size<=capacity；容量已满或 index 不在 0..size 时返回 -1，不能改数组。",
+      "hint": "这是今日第五题同一方法，不需要重复实现两次。",
+      "knowledge": [
+        "有效长度",
+        "边界检查"
+      ]
+    },
+    {
+      "id": "shift-backward",
+      "day": "2026-10-19",
+      "title": "从右向左腾出位置",
+      "instruction": "倒序右移并计数，写入新值；成功时由 main 增加 size。",
+      "hint": "尾插移动 0 次，但仍为成功。",
+      "knowledge": [
+        "数组插入",
+        "移动次数"
+      ]
+    },
+    {
+      "id": "check-boundaries",
+      "day": "2026-10-19",
+      "title": "用固定输出核对",
+      "instruction": "验证中间、空、尾部、满容量、非法位置与非法模型；说明最好 O(1)、最坏 O(n)。",
+      "hint": "这项短练习已计入今天 25–35 分钟预算，不额外叠加。",
+      "knowledge": [
+        "状态保护",
+        "复杂度"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "insert-middle",
+      "label": "中间插入",
+      "input": "5 3\n10 20 30\n1 15\n",
+      "output": "Shifts: 2\nSize: 4\nValues: [10, 15, 20, 30]",
+      "purpose": "核对倒序移动与有效长度。"
+    },
+    {
+      "id": "insert-empty-zero",
+      "label": "空序列插入真实 0",
+      "input": "2 0\n0 0\n",
+      "output": "Shifts: 0\nSize: 1\nValues: [0]",
+      "purpose": "0 次移动仍成功，0 可以是真实数据。"
+    },
+    {
+      "id": "insert-tail",
+      "label": "尾插",
+      "input": "3 2\n5 7\n2 9\n",
+      "output": "Shifts: 0\nSize: 3\nValues: [5, 7, 9]",
+      "purpose": "尾部不搬移但更新 size。"
+    },
+    {
+      "id": "insert-full",
+      "label": "满容量",
+      "input": "2 2\n5 7\n1 9\n",
+      "output": "Shifts: -1\nSize: 2\nValues: [5, 7]",
+      "purpose": "失败后状态不变。"
+    },
+    {
+      "id": "insert-gap",
+      "label": "不能留下空洞",
+      "input": "4 2\n4 7\n3 9\n",
+      "output": "Shifts: -1\nSize: 2\nValues: [4, 7]",
+      "purpose": "物理下标合法不代表逻辑插入位置合法。"
+    },
+    {
+      "id": "insert-invalid-model",
+      "label": "有效长度超过容量",
+      "input": "2 3\n",
+      "output": "Invalid model",
+      "purpose": "输入模型错误时在分配和读取有效数据前返回。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "read-versus-insert",
+      "question": "读取元素与插入位置的上界为什么不同？",
+      "answer": "读取必须 index<size；插入允许 index==size 表示追加，但还要有容量。"
+    },
+    {
+      "id": "zero-shifts-success",
+      "question": "返回 0 为什么仍应增加 size？",
+      "answer": "0 表示无需搬移的成功尾插；只有 -1 表示失败。"
+    },
+    {
+      "id": "method-space",
+      "question": "核心插入与展示副本的额外空间有什么区别？",
+      "answer": "核心原地插入 O(1)；用于展示的 copyOf 另分配长度为 n 的数组，占 O(n)。"
+    }
+  ],
+  "solution": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class InsertionPractice {\n    // 前提：values 非 null，0 <= size <= values.length。\n    static int insertAt(int[] values, int size, int index, int value) {\n        if (size == values.length || index < 0 || index > size) {\n            return -1;\n        }\n        int shifts = 0;\n        for (int i = size; i > index; i--) {\n            values[i] = values[i - 1];\n            shifts++;\n        }\n        values[index] = value;\n        return shifts;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = sc.nextInt();\n        int size = sc.nextInt();\n        if (capacity < 0 || size < 0 || size > capacity) {\n            System.out.println(\"Invalid model\");\n            return;\n        }\n        int[] values = new int[capacity];\n        for (int i = 0; i < size; i++) {\n            values[i] = sc.nextInt();\n        }\n        int index = sc.nextInt();\n        int value = sc.nextInt();\n        int shifts = insertAt(values, size, index, value);\n        if (shifts >= 0) {\n            size++;\n        }\n        System.out.println(\"Shifts: \" + shifts);\n        System.out.println(\"Size: \" + size);\n        System.out.println(\"Values: \" + Arrays.toString(Arrays.copyOf(values, size)));\n    }\n}",
+  "solutionExplanation": [
+    "复用每日第五题的方法，不另建大型功能。",
+    "先校验位置，再倒序移动，保持有效数据连续。",
+    "返回的是移动次数；main 仅在非负时更新 size。",
+    "展示副本的开销单独分析，不冒充核心方法的 O(1) 额外空间。"
+  ],
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "依据官方与大学课程数组原理原创短练习。"
+    },
+    {
+      "title": "OpenDSA：Array-Based List Implementation",
+      "url": "https://opendsa-server.cs.vt.edu/ODSA/Books/ncc/csce210/spring-2025/MWF_920am/html/ListArray.html",
+      "attribution": "依据官方与大学课程数组原理原创短练习。"
+    }
+  ]
+}
