@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-20",
+  "track": "java",
+  "title": "查找后删除小练习（可选）",
+  "goal": "用今日第五题同一组方法查找并删除首个目标，检验有效区间和状态保护；20 分钟以内，包含在每日预算内，不另加大型项目。",
+  "prerequisites": [
+    "数组有效长度、循环与方法",
+    "顺序查找、移动次数和边界"
+  ],
+  "filename": "ArrayDeleteSearch.java",
+  "runCommand": "javac ArrayDeleteSearch.java && java ArrayDeleteSearch",
+  "starter": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class ArrayDeleteSearch {\n    // 两个方法都假设 values 非 null，且 0 <= size <= values.length。\n    static int findFirst(int[] values, int size, int target) {\n        return -1;\n    }\n\n    static int deleteAt(int[] values, int size, int index) {\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = sc.nextInt();\n        int size = sc.nextInt();\n        if (capacity < 0 || size < 0 || size > capacity) {\n            System.out.println(\"Invalid model\");\n            return;\n        }\n        int[] values = new int[capacity];\n        for (int i = 0; i < size; i++) {\n            values[i] = sc.nextInt();\n        }\n        int target = sc.nextInt();\n        int index = findFirst(values, size, target);\n        int shifts = deleteAt(values, size, index);\n        if (shifts >= 0) {\n            size--;\n        }\n        System.out.println(\"Found: \" + index);\n        System.out.println(\"Shifts: \" + shifts);\n        System.out.println(\"Size: \" + size);\n        System.out.println(\"Values: \" + Arrays.toString(Arrays.copyOf(values, size)));\n    }\n}",
+  "steps": [
+    {
+      "id": "find-valid-prefix",
+      "day": "2026-10-20",
+      "title": "只查有效区间",
+      "instruction": "从 0 到 size-1 查找，首个匹配立即返回，未命中返回 -1。",
+      "hint": "空余容量中的 0 不参与查找。",
+      "knowledge": [
+        "顺序查找",
+        "有效长度"
+      ]
+    },
+    {
+      "id": "delete-after-check",
+      "day": "2026-10-20",
+      "title": "安全地左移删除",
+      "instruction": "先检查位置再左移与清尾；返回移动次数，调用者仅在非负时 size--。",
+      "hint": "删除尾部返回 0，仍然成功。",
+      "knowledge": [
+        "数组删除",
+        "状态保护"
+      ]
+    },
+    {
+      "id": "run-small-checks",
+      "day": "2026-10-20",
+      "title": "验证重复、空和真实 0",
+      "instruction": "运行固定测试并解释两段连续线性成本仍为 O(n)，不重复做一套项目。",
+      "hint": "本页是每日第五题的可选展示。",
+      "knowledge": [
+        "边界测试",
+        "复杂度"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "delete-duplicate",
+      "label": "只删第一个重复值",
+      "input": "5 3\n4 7 7\n7\n",
+      "output": "Found: 1\nShifts: 1\nSize: 2\nValues: [4, 7]",
+      "purpose": "首个目标与移动次数。"
+    },
+    {
+      "id": "delete-empty",
+      "label": "空序列",
+      "input": "2 0\n7\n",
+      "output": "Found: -1\nShifts: -1\nSize: 0\nValues: []",
+      "purpose": "空数据不越界、不减成负数。"
+    },
+    {
+      "id": "delete-spare-zero",
+      "label": "空余位置的 0",
+      "input": "3 1\n5\n0\n",
+      "output": "Found: -1\nShifts: -1\nSize: 1\nValues: [5]",
+      "purpose": "只查有效区间。"
+    },
+    {
+      "id": "delete-real-zero",
+      "label": "唯一的真实 0",
+      "input": "2 1\n0\n0\n",
+      "output": "Found: 0\nShifts: 0\nSize: 0\nValues: []",
+      "purpose": "0 次移动仍然成功。"
+    },
+    {
+      "id": "delete-tail",
+      "label": "尾部目标",
+      "input": "3 2\n4 7\n7\n",
+      "output": "Found: 1\nShifts: 0\nSize: 1\nValues: [4]",
+      "purpose": "尾部零移动与有效长度。"
+    },
+    {
+      "id": "invalid-model",
+      "label": "长度超过容量",
+      "input": "1 2\n",
+      "output": "Invalid model",
+      "purpose": "读取数据前拒绝非法模型。"
+    }
+  ],
+  "recall": [
+    {
+      "id": "first-not-last",
+      "question": "为什么返回首个而不是最后一个匹配？",
+      "answer": "从左向右扫描，首次命中立刻结束，符合函数契约。"
+    },
+    {
+      "id": "zero-success",
+      "question": "删除返回 0 代表失败吗？",
+      "answer": "不代表，尾部删除无需搬移；只有 -1 表示失败。"
+    },
+    {
+      "id": "two-linear-passes",
+      "question": "查找和删除先后执行，最坏成本是什么？",
+      "answer": "O(n)，线性工作相加仍为线性；显示副本空间另外计算。"
+    }
+  ],
+  "solution": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class ArrayDeleteSearch {\n    // 两个方法都假设 values 非 null，且 0 <= size <= values.length。\n    static int findFirst(int[] values, int size, int target) {\n        for (int i = 0; i < size; i++) {\n            if (values[i] == target) {\n                return i;\n            }\n        }\n        return -1;\n    }\n\n    static int deleteAt(int[] values, int size, int index) {\n        if (index < 0 || index >= size) {\n            return -1;\n        }\n        int shifts = 0;\n        for (int i = index; i < size - 1; i++) {\n            values[i] = values[i + 1];\n            shifts++;\n        }\n        values[size - 1] = 0;\n        return shifts;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int capacity = sc.nextInt();\n        int size = sc.nextInt();\n        if (capacity < 0 || size < 0 || size > capacity) {\n            System.out.println(\"Invalid model\");\n            return;\n        }\n        int[] values = new int[capacity];\n        for (int i = 0; i < size; i++) {\n            values[i] = sc.nextInt();\n        }\n        int target = sc.nextInt();\n        int index = findFirst(values, size, target);\n        int shifts = deleteAt(values, size, index);\n        if (shifts >= 0) {\n            size--;\n        }\n        System.out.println(\"Found: \" + index);\n        System.out.println(\"Shifts: \" + shifts);\n        System.out.println(\"Size: \" + size);\n        System.out.println(\"Values: \" + Arrays.toString(Arrays.copyOf(values, size)));\n    }\n}",
+  "solutionExplanation": [
+    "复用既有 findFirst 与 deleteAt 语义。",
+    "失败先返回，不修改数组或有效长度。",
+    "参考实现使用固定数量工作变量，展示 copyOf 副本另占 O(n)。"
+  ],
+  "sources": [
+    {
+      "title": "Dev.java：Creating Arrays in Your Programs",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "依据课程及官方原理原创短练习，不引入队列等后续章节。"
+    },
+    {
+      "title": "OpenDSA：Array-Based List Implementation",
+      "url": "https://opendsa-server.cs.vt.edu/ODSA/Books/ncc/csce210/spring-2025/MWF_920am/html/ListArray.html",
+      "attribution": "依据课程及官方原理原创短练习，不引入队列等后续章节。"
+    },
+    {
+      "title": "OpenDSA：Sequential Search",
+      "url": "https://opendsax.cs.vt.edu/OpenDSA/Books/Everything/html/BinarySearch.html#sequential-search",
+      "attribution": "依据课程及官方原理原创短练习，不引入队列等后续章节。"
+    }
+  ]
+}
