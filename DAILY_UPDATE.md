@@ -2,7 +2,7 @@
 
 ## 范围
 
-本文件只约束 GitHub 仓库 `Meeeee520/DataStructure` 的数据结构课程。Python 仓库与网站中的 Python 课程继续按其原计划每日更新笔记和题目，不因本计划暂停或改变。
+本文件只约束 GitHub 仓库 `MeeeeeLab/DataStructure` 的数据结构课程。Python 仓库与网站中的 Python 课程继续按其原计划每日更新笔记和题目，不因本计划暂停或改变。
 
 日期使用 `Asia/Shanghai`。保留全部历史笔记、题目、题号、项目文件和网站进度；不得把“内容已发布”写成“用户已完成”。
 
