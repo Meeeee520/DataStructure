@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "topic": "字符串长度与字符遍历",
+  "stage": "数组与字符串",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-21_字符串长度与字符遍历.md",
+  "collectedAt": "2026-10-21",
+  "sources": [
+    {
+      "title": "Java SE 25：String",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "Dev.java：Arrays",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "kind": "Java 官方教程"
+    },
+    {
+      "title": "CS50x：Running Time",
+      "url": "https://cs50.harvard.edu/x/notes/3/",
+      "kind": "Harvard 官方课程"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1-delete",
+      "type": "short",
+      "title": "D+1：删除后的有效长度",
+      "difficulty": "基础",
+      "prompt": "不看昨日答案，写出两行输出。",
+      "answer": "1 2\n[4, 9, 0, 0]",
+      "explanation": "下标1之后只有9需要左移一次，size降为2；容量仍为4。",
+      "hint": "循环到旧size-2，最后清旧有效尾。",
+      "sourceIndex": 1,
+      "attribution": "依据已阅读官方/课程概念原创变式，非官方原题；2026-10-21 核对",
+      "code": "int[] a = {4, 7, 9, 0};\nint size = 3;\nint index = 1;\nint shifts = 0;\nfor (int i = index; i < size - 1; i++) {\n    a[i] = a[i + 1];\n    shifts++;\n}\na[size - 1] = 0;\nsize--;\nSystem.out.println(shifts + \" \" + size);\nSystem.out.println(java.util.Arrays.toString(a));",
+      "reviewOf": "2026-10-20",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2-review-d7-growth",
+      "type": "mcq",
+      "title": "D+7：增长量级主动回忆",
+      "difficulty": "基础",
+      "prompt": "先自行判断再看选项：一个循环完整扫描 n 项，随后两个嵌套循环各扫描 n 项，循环体固定成本。最紧的常见量级是什么？",
+      "answer": 2,
+      "explanation": "n+n² 的主导增长项为 n²。忽略较低阶项不等于忽略所有循环。",
+      "hint": "分开计算每段，再相加。",
+      "sourceIndex": 2,
+      "attribution": "依据已阅读官方/课程概念原创变式，非官方原题；2026-10-21 核对",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "O(log n)"
+      ],
+      "reviewOf": "2026-10-14",
+      "reviewOffset": 7
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "字符串的合法下标",
+      "difficulty": "基础",
+      "prompt": "String s = \"Java\"; 哪个表达式正确读取最后一个 char？",
+      "answer": 1,
+      "explanation": "length()为4，合法下标0到3；数组的length属性与字符串length()方法不同。",
+      "hint": "最后下标比长度小1。",
+      "sourceIndex": 0,
+      "attribution": "依据已阅读官方/课程概念原创变式，非官方原题；2026-10-21 核对",
+      "options": [
+        "s.charAt(s.length())",
+        "s.charAt(s.length() - 1)",
+        "s[s.length - 1]",
+        "s.charAt(-1)"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "大小写与空格",
+      "difficulty": "基础",
+      "prompt": "写出唯一一行输出。",
+      "answer": "5 1",
+      "explanation": "空格也占位置；只匹配小写a，A不算。",
+      "hint": "不要在脑中自动trim。",
+      "sourceIndex": 0,
+      "attribution": "依据已阅读官方/课程概念原创变式，非官方原题；2026-10-21 核对",
+      "code": "String s = \" a A \";\nint count = 0;\nfor (int i = 0; i < s.length(); i++) {\n    if (s.charAt(i) == 'a') count++;\n}\nSystem.out.println(s.length() + \" \" + count);"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "安全遍历并计数",
+      "difficulty": "基础",
+      "prompt": "实现 countChar(String text, char target)，统计目标 char 次数。前提 text 非 null；按UTF-16 char单元遍历，不修改字符串；空串返回0。网站不执行代码，请本地运行。",
+      "answer": "static int countChar(String text, char target) {\n        int count = 0;\n        for (int i = 0; i < text.length(); i++) {\n            if (text.charAt(i) == target) {\n                count++;\n            }\n        }\n        return count;\n    }\n",
+      "explanation": "循环使用i<length()，空串自然跳过，检查每个char一次。常规JDK字符串访问模型下时间O(n)、额外空间O(1)。",
+      "hint": "先写终点，再想空串会不会进入循环。",
+      "sourceIndex": 0,
+      "attribution": "依据已阅读官方/课程概念原创变式，非官方原题；2026-10-21 核对",
+      "language": "java",
+      "starter": "static int countChar(String text, char target) {\n    // TODO\n    return 0;\n}\n",
+      "tests": [
+        {
+          "input": "System.out.println(countChar(\"Java data\", 'a'));",
+          "output": "4"
+        },
+        {
+          "input": "System.out.println(countChar(\"\", 'a'));",
+          "output": "0"
+        },
+        {
+          "input": "System.out.println(countChar(\"a\", 'a'));",
+          "output": "1"
+        },
+        {
+          "input": "System.out.println(countChar(\" a A \", 'a'));",
+          "output": "1"
+        }
+      ]
+    }
+  ],
+  "language": "Java",
+  "mode": "lesson",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-20",
+      "offset": 1,
+      "topic": "数组删除与有效区间查找"
+    },
+    {
+      "sourceDate": "2026-10-14",
+      "offset": 7,
+      "topic": "Big O 与增长速度"
+    }
+  ]
+}
