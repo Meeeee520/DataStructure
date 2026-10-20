@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-21",
+  "track": "java",
+  "title": "字符串遍历短练习（可选复用）",
+  "goal": "复用当日第五题，按char统计文本；包含在25–35分钟每日预算内，不额外叠加项目。",
+  "prerequisites": [
+    "Java循环、方法、字符串基础",
+    "昨日有效长度与数组边界"
+  ],
+  "filename": "TextScan.java",
+  "runCommand": "javac TextScan.java && java TextScan",
+  "starter": "import java.util.Scanner;\n\npublic class TextScan {\n    // 前提：text 非 null；本练习按 UTF-16 char 单元处理。\n    static int countChar(String text, char target) {\n        // TODO\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String text = sc.nextLine();\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"a: \" + countChar(text, 'a'));\n    }\n}\n",
+  "solution": "import java.util.Scanner;\n\npublic class TextScan {\n    // 前提：text 非 null；本练习按 UTF-16 char 单元处理。\n    static int countChar(String text, char target) {\n        int count = 0;\n        for (int i = 0; i < text.length(); i++) {\n            if (text.charAt(i) == target) {\n                count++;\n            }\n        }\n        return count;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String text = sc.nextLine();\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"a: \" + countChar(text, 'a'));\n    }\n}\n",
+  "solutionExplanation": [
+    "只复用笔记和第五题，不增加工作日大型项目。",
+    "空串自然跳过，空格保留，大写A不计入小写a。",
+    "按UTF-16 char单元处理，不声称可见字符计数。"
+  ],
+  "steps": [
+    {
+      "id": "read-boundary",
+      "day": "2026-10-21",
+      "title": "明确字符串边界",
+      "instruction": "复用今日第五题，不另建大型项目；先说length()与charAt(i)的合法下标。",
+      "hint": "空串没有合法下标。",
+      "knowledge": [
+        "String",
+        "charAt"
+      ]
+    },
+    {
+      "id": "write-loop",
+      "day": "2026-10-21",
+      "title": "独立实现countChar",
+      "instruction": "按char单元遍历，数小写a，保留空格，区分大小写。",
+      "hint": "条件i<length()。",
+      "knowledge": [
+        "遍历",
+        "计数"
+      ]
+    },
+    {
+      "id": "check-recall",
+      "day": "2026-10-21",
+      "title": "自测与解释",
+      "instruction": "执行正常与边界测试，解释O(n)时间、O(1)额外空间，再做D+1/D+7回忆。",
+      "hint": "不要给用户勾完成。",
+      "knowledge": [
+        "边界",
+        "间隔复习"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "normal",
+      "label": "含重复字符",
+      "input": "Java data\n",
+      "output": "Length: 9\na: 4",
+      "purpose": "计数全部小写a"
+    },
+    {
+      "id": "empty",
+      "label": "空串",
+      "input": "\n",
+      "output": "Length: 0\na: 0",
+      "purpose": "不调用越界charAt"
+    },
+    {
+      "id": "single",
+      "label": "单字符",
+      "input": "a\n",
+      "output": "Length: 1\na: 1",
+      "purpose": "最后合法下标是0"
+    },
+    {
+      "id": "spaces",
+      "label": "保留空格",
+      "input": " a A \n",
+      "output": "Length: 5\na: 1",
+      "purpose": "不trim且大小写敏感"
+    },
+    {
+      "id": "no-match",
+      "label": "无目标",
+      "input": "XYZ\n",
+      "output": "Length: 3\na: 0",
+      "purpose": "非空不等于命中"
+    },
+    {
+      "id": "utf16",
+      "label": "UTF-16边界说明",
+      "input": "😀a\n",
+      "output": "Length: 3\na: 1",
+      "purpose": "length不是可见字符数，不扩展Unicode算法"
+    }
+  ],
+  "recall": [
+    {
+      "id": "last-index",
+      "question": "为什么用i<length()？",
+      "answer": "最大合法下标为length()-1，空串不进入循环。"
+    },
+    {
+      "id": "all-occurrences",
+      "question": "为什么不能首次找到就返回？",
+      "answer": "目标是统计所有出现次数，不是寻找首个下标。"
+    },
+    {
+      "id": "spare-prefix",
+      "question": "昨日查找为什么只扫描size而非数组容量？",
+      "answer": "空余容量不是有效数据，默认0可能造成误匹配。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Java SE 25：String",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+      "attribution": "2026-10-21实际阅读，依据概念原创教学练习，非官方原题"
+    },
+    {
+      "title": "Dev.java：Arrays",
+      "url": "https://dev.java/learn/language/constructs/basics/arrays/",
+      "attribution": "2026-10-21实际阅读，依据概念原创教学练习，非官方原题"
+    },
+    {
+      "title": "CS50x：Running Time",
+      "url": "https://cs50.harvard.edu/x/notes/3/",
+      "attribution": "2026-10-21实际阅读，依据概念原创教学练习，非官方原题"
+    }
+  ]
+}
