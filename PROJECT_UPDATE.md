@@ -2,7 +2,7 @@
 
 ## 适用范围
 
-本文件只约束 `Meeeee520/DataStructure` 的 Java 周末项目。Python 的笔记、题目和项目继续读取 Python 仓库中的原规则，不在这里修改。
+本文件只约束 `MeeeeeLab/DataStructure` 的 Java 周末项目。Python 的笔记、题目和项目继续读取 Python 仓库中的原规则，不在这里修改。
 
 ## 生成规则
 
