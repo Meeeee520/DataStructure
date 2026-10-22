@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "topic": "字符串分类统计",
+  "stage": "数组与字符串",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-22_字符串分类统计.md",
+  "collectedAt": "2026-10-23",
+  "sources": [
+    {
+      "title": "Java SE 25：String",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "Java SE 25：Arrays",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "CS50x：Lecture 3 — Running Time",
+      "url": "https://cs50.harvard.edu/x/notes/3/",
+      "kind": "Harvard 官方课程"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1",
+      "type": "short",
+      "title": "D+1：字符串边界",
+      "difficulty": "基础",
+      "prompt": "写出一行输出。",
+      "answer": "0 3 a",
+      "explanation": "空串长度0；\"😀a\" 按 UTF-16 char 单元长度3，最后char为a。",
+      "hint": "length()统计char单元。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "code": "System.out.println(\"\".length()+\" \"+\"😀a\".length()+\" \"+\"😀a\".charAt(2));",
+      "reviewOf": "2026-10-21",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2-review-d7",
+      "type": "mcq",
+      "title": "D+7：循环量级",
+      "difficulty": "基础",
+      "prompt": "外层循环 n 次，内层每次固定执行 3 次，时间复杂度是什么？",
+      "answer": 1,
+      "explanation": "总次数3n，省略常数后为 O(n)。",
+      "hint": "固定3不是n。",
+      "sourceIndex": 2,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "O(log n)"
+      ],
+      "reviewOf": "2026-10-15",
+      "reviewOffset": 7
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "分类顺序",
+      "difficulty": "基础",
+      "prompt": "字符 'A'、'7'、空格、'!' 分别进入 letters/digits/spaces/others 哪类？",
+      "answer": 3,
+      "explanation": "分别是字母、数字、空格、其他，因此每类各1。",
+      "hint": "按 if/else if 只进入一个分支。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "options": [
+        "[4,0,0,0]",
+        "[1,3,0,0]",
+        "[1,1,2,0]",
+        "[1,1,1,1]"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "ASCII 分类追踪",
+      "difficulty": "基础",
+      "prompt": "写出输出。",
+      "answer": "[2, 1, 1, 1]",
+      "explanation": "A与b是ASCII字母，1是数字，空格一项，!是其他。",
+      "hint": "数组顺序是 letters,digits,spaces,others。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "code": "System.out.println(java.util.Arrays.toString(countAsciiCategories(\"A1 b!\")));"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "实现文本分类统计",
+      "difficulty": "基础",
+      "prompt": "实现 countAsciiCategories，返回 int[4]：ASCII英文字母、ASCII数字、普通空格、其他char单元。text 非 null；空串返回全0。明确不是完整Unicode自然语言分类。",
+      "answer": "static int[] countAsciiCategories(String text) {\n        int[] counts = new int[4]; // letters, digits, spaces, others\n        for (int i = 0; i < text.length(); i++) {\n            char ch = text.charAt(i);\n            if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {\n                counts[0]++;\n            } else if (ch >= '0' && ch <= '9') {\n                counts[1]++;\n            } else if (ch == ' ') {\n                counts[2]++;\n            } else {\n                counts[3]++;\n            }\n        }\n        return counts;\n    }",
+      "explanation": "一次扫描，每个char只进入一个分支，时间 O(n)、额外空间 O(1)。",
+      "hint": "先固定四个下标含义。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "language": "java",
+      "starter": "static int[] countAsciiCategories(String text) {\n    return new int[4];\n}\n",
+      "tests": [
+        {
+          "input": "A1 b!\n",
+          "output": "[2, 1, 1, 1]"
+        },
+        {
+          "input": "\n",
+          "output": "[0, 0, 0, 0]"
+        },
+        {
+          "input": "123\n",
+          "output": "[0, 3, 0, 0]"
+        },
+        {
+          "input": "你a\n",
+          "output": "[1, 0, 0, 1]"
+        }
+      ]
+    }
+  ],
+  "language": "Java",
+  "mode": "lesson",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-21",
+      "offset": 1,
+      "topic": "字符串长度与字符遍历"
+    },
+    {
+      "sourceDate": "2026-10-15",
+      "offset": 7,
+      "topic": "循环结构与复杂度判断"
+    }
+  ]
+}
