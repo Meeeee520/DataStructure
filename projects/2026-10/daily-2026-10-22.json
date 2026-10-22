@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "projectId": "daily-2026-10-22",
+  "track": "java",
+  "title": "文本分类统计短练习（可选复用）",
+  "goal": "复用当日第五题，一次扫描统计四类 char；包含在每日预算内。",
+  "prerequisites": [
+    "String.length()/charAt",
+    "数组计数"
+  ],
+  "filename": "TextCategories.java",
+  "runCommand": "java TextCategories.java",
+  "starter": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class TextCategories {\n    static int[] countAsciiCategories(String text) {\n        return new int[4];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(Arrays.toString(countAsciiCategories(sc.nextLine())));\n    }\n}\n",
+  "solution": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class TextCategories {\n    static int[] countAsciiCategories(String text) {\n        int[] counts = new int[4]; // letters, digits, spaces, others\n        for (int i = 0; i < text.length(); i++) {\n            char ch = text.charAt(i);\n            if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {\n                counts[0]++;\n            } else if (ch >= '0' && ch <= '9') {\n                counts[1]++;\n            } else if (ch == ' ') {\n                counts[2]++;\n            } else {\n                counts[3]++;\n            }\n        }\n        return counts;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.println(Arrays.toString(countAsciiCategories(sc.nextLine())));\n    }\n}\n",
+  "solutionExplanation": [
+    "一次扫描，时间O(n)、额外空间O(1)。",
+    "本题只按ASCII和普通空格分类。"
+  ],
+  "steps": [
+    {
+      "id": "contract",
+      "day": "2026-10-22",
+      "title": "固定四类",
+      "instruction": "明确letters/digits/spaces/others的数组下标。",
+      "hint": "先预测边界输出再运行。",
+      "knowledge": [
+        "字符串遍历",
+        "分类计数"
+      ]
+    },
+    {
+      "id": "scan",
+      "day": "2026-10-22",
+      "title": "一次扫描",
+      "instruction": "使用charAt和互斥if/else if完成计数。",
+      "hint": "先预测边界输出再运行。",
+      "knowledge": [
+        "字符串遍历",
+        "分类计数"
+      ]
+    },
+    {
+      "id": "test",
+      "day": "2026-10-22",
+      "title": "边界测试",
+      "instruction": "运行空串、纯数字、普通与非ASCII样例。",
+      "hint": "先预测边界输出再运行。",
+      "knowledge": [
+        "字符串遍历",
+        "分类计数"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test-1",
+      "label": "正常样例",
+      "input": "A1 b!\n",
+      "output": "[2, 1, 1, 1]",
+      "purpose": "验证核心路径"
+    },
+    {
+      "id": "test-2",
+      "label": "空数据",
+      "input": "\n",
+      "output": "[0, 0, 0, 0]",
+      "purpose": "验证空数据"
+    },
+    {
+      "id": "test-3",
+      "label": "单元素或边界",
+      "input": "123\n",
+      "output": "[0, 3, 0, 0]",
+      "purpose": "验证最小规模与状态保护"
+    },
+    {
+      "id": "test-4",
+      "label": "未命中或非法",
+      "input": "你a\n",
+      "output": "[1, 0, 0, 1]",
+      "purpose": "验证未命中或非法输入"
+    }
+  ],
+  "recall": [
+    {
+      "id": "one-branch",
+      "question": "为什么使用else if链？",
+      "answer": "保证每个char单元只进入一个类别。"
+    },
+    {
+      "id": "ascii-limit",
+      "question": "汉字进入哪个类别？",
+      "answer": "按本题ASCII契约进入其他。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Java SE 25：String",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+      "attribution": "2026-10-23实际核对，项目为原创教学练习"
+    },
+    {
+      "title": "Java SE 25：Arrays",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+      "attribution": "2026-10-23实际核对，项目为原创教学练习"
+    },
+    {
+      "title": "CS50x：Lecture 3 — Running Time",
+      "url": "https://cs50.harvard.edu/x/notes/3/",
+      "attribution": "2026-10-23实际核对，项目为原创教学练习"
+    }
+  ]
+}
