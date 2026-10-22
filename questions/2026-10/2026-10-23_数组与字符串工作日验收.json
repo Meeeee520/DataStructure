@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "topic": "数组与字符串工作日验收",
+  "stage": "数组与字符串",
+  "estimatedMinutes": 25,
+  "notePath": "notes/2026-10/2026-10-23_数组与字符串工作日验收.md",
+  "collectedAt": "2026-10-23",
+  "sources": [
+    {
+      "title": "Java SE 25：String",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "Java SE 25：Arrays",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "CS50x：Lecture 3 — Running Time",
+      "url": "https://cs50.harvard.edu/x/notes/3/",
+      "kind": "Harvard 官方课程"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1",
+      "type": "short",
+      "title": "D+1：分类统计",
+      "difficulty": "基础",
+      "prompt": "写出输出。",
+      "answer": "[1, 1, 1, 1]",
+      "explanation": "a、2、空格、? 分别进入四类。",
+      "hint": "每个char只计一次。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "code": "System.out.println(java.util.Arrays.toString(countAsciiCategories(\"a2 ?\")));",
+      "reviewOf": "2026-10-22",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2-review-d7",
+      "type": "mcq",
+      "title": "D+7：章节复杂度验收",
+      "difficulty": "基础",
+      "prompt": "先顺序查找 O(n)，再执行一次数组头部删除 O(n)，两段先后执行的总复杂度是什么？",
+      "answer": 1,
+      "explanation": "n+n 仍为 O(n)，不是相乘。",
+      "hint": "先后相加，嵌套才相乘。",
+      "sourceIndex": 2,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "O(log n)"
+      ],
+      "reviewOf": "2026-10-16",
+      "reviewOffset": 7
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "相邻相等的定义",
+      "difficulty": "基础",
+      "prompt": "数组有效区间 [2,2,5,5,5] 有多少对相邻且相等？",
+      "answer": 2,
+      "explanation": "相等对为(2,2)、第一个(5,5)、第二个(5,5)，共3对。三个连续5产生2对。",
+      "hint": "从下标1开始和前一项比较。",
+      "sourceIndex": 1,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "只数小写元音",
+      "difficulty": "基础",
+      "prompt": "写出输出。",
+      "answer": "5",
+      "explanation": "education 中 e,u,a,i,o 共5个；方法只认小写 aeiou。",
+      "hint": "逐字符列出来。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "code": "System.out.println(countLowercaseVowels(\"education\"));"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "数组与字符串独立验收",
+      "difficulty": "基础",
+      "prompt": "实现 adjacentEquals(values,size) 与 countLowercaseVowels(text)。前者只检查有效区间相邻对；后者只数小写 a/e/i/o/u。前提非null且 0<=size<=values.length。",
+      "answer": "static int adjacentEquals(int[] values, int size) {\n        int count = 0;\n        for (int i = 1; i < size; i++) {\n            if (values[i] == values[i - 1]) count++;\n        }\n        return count;\n    }\n\n    static int countLowercaseVowels(String text) {\n        int count = 0;\n        for (int i = 0; i < text.length(); i++) {\n            char ch = text.charAt(i);\n            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {\n                count++;\n            }\n        }\n        return count;\n    }",
+      "explanation": "两方法均为单次扫描：时间 O(size) 与 O(text.length())，额外空间 O(1)。空数据自然返回0。",
+      "hint": "相邻比较从 i=1 开始；元音用多个 ||。",
+      "sourceIndex": 1,
+      "attribution": "依据 2026-10-23 实际阅读的官方/课程资料原创，非官方原题",
+      "language": "java",
+      "starter": "static int adjacentEquals(int[] values, int size) {\n    return 0;\n}\n\nstatic int countLowercaseVowels(String text) {\n    return 0;\n}\n",
+      "tests": [
+        {
+          "input": "6 5\n2 2 5 5 5\neducation\n",
+          "output": "Adjacent: 3\nVowels: 5\nActive: [2, 2, 5, 5, 5]"
+        },
+        {
+          "input": "0 0\n\n",
+          "output": "Adjacent: 0\nVowels: 0\nActive: []"
+        },
+        {
+          "input": "3 1\n0\nA E\n",
+          "output": "Adjacent: 0\nVowels: 0\nActive: [0]"
+        },
+        {
+          "input": "1 2\n",
+          "output": "Invalid model"
+        }
+      ]
+    }
+  ],
+  "language": "Java",
+  "mode": "chapter-check",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-22",
+      "offset": 1,
+      "topic": "字符串分类统计"
+    },
+    {
+      "sourceDate": "2026-10-16",
+      "offset": 7,
+      "topic": "复杂度基础综合验收"
+    }
+  ]
+}
