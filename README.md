@@ -46,6 +46,8 @@
 | 2026-10-19 | [数组有效长度与插入](notes/2026-10/2026-10-19_数组有效长度与插入.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-19_数组有效长度与插入.json) |
 | 2026-10-20 | [数组删除与有效区间查找](notes/2026-10/2026-10-20_数组删除与有效区间查找.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-20_数组删除与有效区间查找.json) |
 | 2026-10-21 | [字符串长度与字符遍历](notes/2026-10/2026-10-21_字符串长度与字符遍历.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-21_字符串长度与字符遍历.json) |
+| 2026-10-22 | [字符串分类统计](notes/2026-10/2026-10-22_字符串分类统计.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-22_字符串分类统计.json) |
+| 2026-10-23 | [数组与字符串工作日验收](notes/2026-10/2026-10-23_数组与字符串工作日验收.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-23_数组与字符串工作日验收.json) |
 <!-- DAILY_NOTES_END -->
 
 点击上面的笔记标题即可阅读，或进入 `notes → YYYY-MM → 日期_知识点名.md`。`.md` 是阅读笔记；`questions` 里的 `.json` 是网站读取的数据。
