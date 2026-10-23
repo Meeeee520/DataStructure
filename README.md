@@ -18,8 +18,7 @@
 
 10 月 9–13 日已经发布的项目资料与个人进度全部保留。从 10 月 17 日起，数据结构工作日不额外叠加大型项目；周末两天继续同一个 Java 项目。项目目标、起始代码、自测与参考实现会放入当日笔记和练习，仍使用原数据结构网站完成。
 
-本周末项目：[数组操作成本分析器](projects/2026-10/weekend-2026-10-17.md)（10 月 17–18 日共用；周日继续同一项目）。
-
+本周末项目：[文本与成绩统计工具](projects/2026-10/weekend-2026-10-24.md)（10 月 24–25 日共用；周六完成建模与核心统计，周日继续同一项目验收）。\n
 ## 每日更新
 
 每天生成一份中文 Markdown 笔记和 5 道题。笔记包含通俗解释、Java 示例、复杂度、易错点、练习和验收清单；每日 5 题会优先容纳到期的 D+1、D+7、D+30 复习，避免额外无限加量。
@@ -48,6 +47,7 @@
 | 2026-10-21 | [字符串长度与字符遍历](notes/2026-10/2026-10-21_字符串长度与字符遍历.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-21_字符串长度与字符遍历.json) |
 | 2026-10-22 | [字符串分类统计](notes/2026-10/2026-10-22_字符串分类统计.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-22_字符串分类统计.json) |
 | 2026-10-23 | [数组与字符串工作日验收](notes/2026-10/2026-10-23_数组与字符串工作日验收.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-23_数组与字符串工作日验收.json) |
+| 2026-10-24 | [周末项目二：文本与成绩统计工具](notes/2026-10/2026-10-24_周末项目二文本与成绩统计工具.md) | [打开每日练习](https://python-daily-lab.sillywood.chatgpt.site/?course=data-structures) · [题目数据](questions/2026-10/2026-10-24_周末项目二文本与成绩统计工具.json) |
 <!-- DAILY_NOTES_END -->
 
 点击上面的笔记标题即可阅读，或进入 `notes → YYYY-MM → 日期_知识点名.md`。`.md` 是阅读笔记；`questions` 里的 `.json` 是网站读取的数据。
