@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "projectId": "weekend-2026-10-24",
+  "track": "java",
+  "title": "文本与成绩统计工具",
+  "goal": "用数组有效区间和字符串遍历完成两个可测试的统计模块，明确空数据与非法边界。",
+  "prerequisites": [
+    "数组有效长度",
+    "字符串 char 遍历",
+    "O(n) 单次扫描"
+  ],
+  "filename": "TextGradeStats.java",
+  "runCommand": "java TextGradeStats.java",
+  "starter": "import java.util.Arrays;\n\npublic class TextGradeStats {\n    static int[] scoreSummary(int[] scores, int size) {\n        return null;\n    }\n\n    static int[] textSummary(String text) {\n        return null;\n    }\n\n    public static void main(String[] args) {\n        // 在这里加入断言式检查\n    }\n}\n",
+  "solution": "import java.util.Arrays;\n\npublic class TextGradeStats {\n    static int[] scoreSummary(int[] scores, int size) {\n        if (size < 0 || size > scores.length) {\n            throw new IllegalArgumentException(\"size out of range\");\n        }\n        if (size == 0) return new int[] {0, 0, 0, 0};\n\n        int sum = 0;\n        int min = scores[0];\n        int max = scores[0];\n        for (int i = 0; i < size; i++) {\n            int score = scores[i];\n            sum += score;\n            if (score < min) min = score;\n            if (score > max) max = score;\n        }\n        return new int[] {size, sum, min, max};\n    }\n\n    static int[] textSummary(String text) {\n        int letters = 0, digits = 0, spaces = 0, others = 0;\n        for (int i = 0; i < text.length(); i++) {\n            char ch = text.charAt(i);\n            if (Character.isLetter(ch)) letters++;\n            else if (Character.isDigit(ch)) digits++;\n            else if (Character.isWhitespace(ch)) spaces++;\n            else others++;\n        }\n        return new int[] {letters, digits, spaces, others};\n    }\n\n    static void check(int[] actual, int[] expected) {\n        if (!Arrays.equals(actual, expected)) {\n            throw new AssertionError(Arrays.toString(actual));\n        }\n    }\n\n    public static void main(String[] args) {\n        check(scoreSummary(new int[] {70, 95, 70}, 3),\n              new int[] {3, 235, 70, 95});\n        check(scoreSummary(new int[] {}, 0),\n              new int[] {0, 0, 0, 0});\n        check(scoreSummary(new int[] {0}, 1),\n              new int[] {1, 0, 0, 0});\n        check(textSummary(\"Ab 2!中\"),\n              new int[] {3, 1, 1, 1});\n\n        boolean rejected = false;\n        try {\n            scoreSummary(new int[] {80}, 2);\n        } catch (IllegalArgumentException expected) {\n            rejected = true;\n        }\n        if (!rejected) throw new AssertionError(\"invalid size must be rejected\");\n\n        System.out.println(\"java checks: OK\");\n    }\n}\n",
+  "solutionExplanation": [
+    "先验证 size，避免非法模型和空数组越界。",
+    "成绩与文本各扫描一次，时间分别为 O(size) 和 O(text.length())。",
+    "固定四项摘要让边界输出可直接比较；非法 size 明确抛异常。"
+  ],
+  "steps": [
+    {
+      "id": "contract",
+      "day": "2026-10-24",
+      "title": "固定输入与空数据契约",
+      "instruction": "写清有效区间、空摘要和非法 size 的处理。",
+      "hint": "先处理 size==0，再读取 scores[0]。",
+      "knowledge": [
+        "数组边界",
+        "有效长度"
+      ]
+    },
+    {
+      "id": "scores",
+      "day": "2026-10-24",
+      "title": "实现成绩摘要",
+      "instruction": "一次扫描得到数量、总分、最低分和最高分。",
+      "hint": "最低/最高从首个有效元素初始化。",
+      "knowledge": [
+        "数组遍历",
+        "O(n)"
+      ]
+    },
+    {
+      "id": "text",
+      "day": "2026-10-24",
+      "title": "实现文本摘要",
+      "instruction": "逐 char 统计字母、数字、空白和其他。",
+      "hint": "使用互斥的 else-if。",
+      "knowledge": [
+        "String遍历",
+        "Character"
+      ]
+    },
+    {
+      "id": "core-tests",
+      "day": "2026-10-24",
+      "title": "运行核心边界",
+      "instruction": "核对正常、空、单元素、混合文本和非法 size。",
+      "hint": "使用 Arrays.equals。",
+      "knowledge": [
+        "边界测试",
+        "数组比较"
+      ]
+    },
+    {
+      "id": "combine",
+      "day": "2026-10-25",
+      "title": "组合报告输出",
+      "instruction": "把两个摘要组合成清晰的控制台报告，不改变核心方法。",
+      "hint": "计算与展示分开。",
+      "knowledge": [
+        "方法职责",
+        "组合"
+      ]
+    },
+    {
+      "id": "acceptance",
+      "day": "2026-10-25",
+      "title": "独立实现验收",
+      "instruction": "不看参考实现重写并解释复杂度，复跑全部边界。",
+      "hint": "先预测每个输出。",
+      "knowledge": [
+        "独立实现",
+        "章节验收"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test-1",
+      "label": "正常成绩",
+      "input": "scoreSummary(new int[]{70,95,70},3)",
+      "output": "[3, 235, 70, 95]",
+      "purpose": "验证核心统计"
+    },
+    {
+      "id": "test-2",
+      "label": "空数据",
+      "input": "scoreSummary(new int[]{},0)",
+      "output": "[0, 0, 0, 0]",
+      "purpose": "验证空契约"
+    },
+    {
+      "id": "test-3",
+      "label": "单元素与文本",
+      "input": "scoreSummary(new int[]{0},1); textSummary(\"Ab 2!中\")",
+      "output": "[1, 0, 0, 0]\n[3, 1, 1, 1]",
+      "purpose": "验证最小规模和分类"
+    },
+    {
+      "id": "test-4",
+      "label": "非法有效长度",
+      "input": "scoreSummary(new int[]{80},2)",
+      "output": "IllegalArgumentException",
+      "purpose": "验证越界拒绝"
+    }
+  ],
+  "recall": [
+    {
+      "id": "empty-first",
+      "question": "为什么先处理 size==0？",
+      "answer": "空数组没有下标0，先读取会越界。"
+    },
+    {
+      "id": "d7-move",
+      "question": "数组头部插入为何是 O(n)？",
+      "answer": "需要把已有 n 项全部右移。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Java SE 25：Character",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html",
+      "attribution": "2026-10-24 实际核对，项目为原创教学练习"
+    },
+    {
+      "title": "Java SE 25：Arrays",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+      "attribution": "2026-10-24 实际核对，项目为原创教学练习"
+    },
+    {
+      "title": "Java Language Specification：Arrays",
+      "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-10.html",
+      "attribution": "2026-10-24 实际核对，项目为原创教学练习"
+    }
+  ]
+}
