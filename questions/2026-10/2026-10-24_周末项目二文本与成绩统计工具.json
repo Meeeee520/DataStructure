@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "topic": "周末项目二：文本与成绩统计工具",
+  "stage": "数组与字符串",
+  "estimatedMinutes": 30,
+  "notePath": "notes/2026-10/2026-10-24_周末项目二文本与成绩统计工具.md",
+  "collectedAt": "2026-10-24",
+  "sources": [
+    {
+      "title": "Java SE 25：Character",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "Java SE 25：Arrays",
+      "url": "https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Arrays.html",
+      "kind": "Java 官方 API"
+    },
+    {
+      "title": "Java Language Specification：Arrays",
+      "url": "https://docs.oracle.com/javase/specs/jls/se25/html/jls-10.html",
+      "kind": "Java 官方规范"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1-review-d1",
+      "type": "short",
+      "title": "D+1：相邻相等验收",
+      "difficulty": "基础",
+      "prompt": "有效区间 [2,2,5,5,5] 中有多少对相邻且相等？",
+      "answer": "3",
+      "explanation": "相等对是 (2,2) 和连续三个5形成的两对，共3对。",
+      "hint": "三个连续相同值产生两对。",
+      "sourceIndex": 1,
+      "attribution": "依据 2026-10-24 实际阅读的官方资料原创，非官方原题",
+      "reviewOf": "2026-10-23",
+      "reviewOffset": 1
+    },
+    {
+      "id": "q2-review-d7",
+      "type": "mcq",
+      "title": "D+7：数组操作成本",
+      "difficulty": "基础",
+      "prompt": "容量足够、有效长度为 n 的数组中，在下标 0 插入元素需要移动多少个已有元素？",
+      "answer": 2,
+      "explanation": "原有 n 项都要右移一格，因此移动 n 次，时间 O(n)。",
+      "hint": "给新元素腾出第0格。",
+      "sourceIndex": 2,
+      "attribution": "依据 2026-10-24 实际阅读的官方资料原创，非官方原题",
+      "options": [
+        "0",
+        "1",
+        "n",
+        "n²"
+      ],
+      "reviewOf": "2026-10-17",
+      "reviewOffset": 7
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "title": "空数据契约",
+      "difficulty": "基础",
+      "prompt": "scoreSummary 的有效长度 size 为 0 时，为什么不能先用 scores[0] 初始化最小值？",
+      "answer": 1,
+      "explanation": "数组可能长度为0；访问下标0会越界。应先处理空契约。",
+      "hint": "先问下标是否存在。",
+      "sourceIndex": 2,
+      "attribution": "依据 2026-10-24 实际阅读的官方资料原创，非官方原题",
+      "options": [
+        "会让复杂度变成 O(n²)",
+        "可能抛出 ArrayIndexOutOfBoundsException",
+        "会自动得到 null",
+        "Java 会补成 -1"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "short",
+      "title": "字符分类追踪",
+      "difficulty": "基础",
+      "prompt": "textSummary 返回 {字母,数字,空白,其他}。写出 textSummary(\"Ab 2!中\") 的结果。",
+      "answer": "[3, 1, 1, 1]",
+      "explanation": "A、b、中是字母；2是数字；一个空格；!是其他。",
+      "hint": "Character.isLetter 能识别这里的中文字符。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-24 实际阅读的官方资料原创，非官方原题"
+    },
+    {
+      "id": "q5",
+      "type": "code",
+      "title": "周末项目核心方法",
+      "difficulty": "基础",
+      "prompt": "实现 scoreSummary 与 textSummary，遵守空有效区间和非法 size 契约，并运行正常、空、单元素、混合文本和非法输入测试。",
+      "answer": "import java.util.Arrays;\n\npublic class TextGradeStats {\n    static int[] scoreSummary(int[] scores, int size) {\n        if (size < 0 || size > scores.length) {\n            throw new IllegalArgumentException(\"size out of range\");\n        }\n        if (size == 0) return new int[] {0, 0, 0, 0};\n\n        int sum = 0;\n        int min = scores[0];\n        int max = scores[0];\n        for (int i = 0; i < size; i++) {\n            int score = scores[i];\n            sum += score;\n            if (score < min) min = score;\n            if (score > max) max = score;\n        }\n        return new int[] {size, sum, min, max};\n    }\n\n    static int[] textSummary(String text) {\n        int letters = 0, digits = 0, spaces = 0, others = 0;\n        for (int i = 0; i < text.length(); i++) {\n            char ch = text.charAt(i);\n            if (Character.isLetter(ch)) letters++;\n            else if (Character.isDigit(ch)) digits++;\n            else if (Character.isWhitespace(ch)) spaces++;\n            else others++;\n        }\n        return new int[] {letters, digits, spaces, others};\n    }\n\n    static void check(int[] actual, int[] expected) {\n        if (!Arrays.equals(actual, expected)) {\n            throw new AssertionError(Arrays.toString(actual));\n        }\n    }\n\n    public static void main(String[] args) {\n        check(scoreSummary(new int[] {70, 95, 70}, 3),\n              new int[] {3, 235, 70, 95});\n        check(scoreSummary(new int[] {}, 0),\n              new int[] {0, 0, 0, 0});\n        check(scoreSummary(new int[] {0}, 1),\n              new int[] {1, 0, 0, 0});\n        check(textSummary(\"Ab 2!中\"),\n              new int[] {3, 1, 1, 1});\n\n        boolean rejected = false;\n        try {\n            scoreSummary(new int[] {80}, 2);\n        } catch (IllegalArgumentException expected) {\n            rejected = true;\n        }\n        if (!rejected) throw new AssertionError(\"invalid size must be rejected\");\n\n        System.out.println(\"java checks: OK\");\n    }\n}\n",
+      "explanation": "两个方法都只做一次扫描；先检查 size 再读取数组下标，字符分类用互斥的 else-if 链。",
+      "hint": "size==0 必须在读取 scores[0] 之前返回。",
+      "sourceIndex": 0,
+      "attribution": "依据 2026-10-24 实际阅读的官方资料原创，非官方原题",
+      "language": "java",
+      "starter": "import java.util.Arrays;\n\npublic class TextGradeStats {\n    static int[] scoreSummary(int[] scores, int size) {\n        return null;\n    }\n\n    static int[] textSummary(String text) {\n        return null;\n    }\n\n    public static void main(String[] args) {\n        // 在这里加入断言式检查\n    }\n}\n",
+      "tests": [
+        {
+          "input": "scoreSummary(new int[]{70,95,70}, 3)",
+          "output": "[3, 235, 70, 95]"
+        },
+        {
+          "input": "scoreSummary(new int[]{}, 0)",
+          "output": "[0, 0, 0, 0]"
+        },
+        {
+          "input": "scoreSummary(new int[]{0}, 1)",
+          "output": "[1, 0, 0, 0]"
+        },
+        {
+          "input": "textSummary(\"Ab 2!中\")",
+          "output": "[3, 1, 1, 1]"
+        },
+        {
+          "input": "scoreSummary(new int[]{80}, 2)",
+          "output": "IllegalArgumentException"
+        }
+      ]
+    }
+  ],
+  "language": "Java",
+  "mode": "weekend-project",
+  "reviews": [
+    {
+      "sourceDate": "2026-10-23",
+      "offset": 1,
+      "topic": "数组与字符串工作日验收"
+    },
+    {
+      "sourceDate": "2026-10-17",
+      "offset": 7,
+      "topic": "周末项目一：数组操作成本分析器"
+    }
+  ]
+}
